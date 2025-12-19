@@ -1,0 +1,2408 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Chevrolet 스타일 차량 제어</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --main-bg-color: #0d0d0d;
+            --bluetooth-color: #e0e0e0;
+            /* 블루투스 연결 흰색 */
+            --accent-color: #FF6600;
+            /* 테크 찐주황색 (버튼 전용) */
+            --highlight-color: #D32F2F;
+            /* 어두운 빨강 (버튼 외 하이라이트) */
+            --success-color: #4CAF50;
+            /* 성공 초록색 */
+            --danger-color: var(--accent-color);
+            /* 실패 주황색 (버튼 상태이므로) */
+
+            --cooldown-color: #ffc107;
+
+            --card-bg-color: #1a1a1a;
+            --button-bg-color: #262626;
+            --text-color: #e0e0e0;
+            --sub-text-color: #a0a0a0;
+            --border-color: #333;
+            --button-radius: 16px;
+            --long-press-duration: 0.5s;
+        }
+
+        /* === ANIMATION DEFINITIONS === */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 5px rgba(255, 102, 0, 0.2);
+            }
+
+            50% {
+                box-shadow: 0 0 15px rgba(255, 102, 0, 0.6);
+            }
+
+            100% {
+                box-shadow: 0 0 5px rgba(255, 102, 0, 0.2);
+            }
+        }
+
+        @keyframes pulseUser {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .animate-slide-up {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        .animate-scale-in {
+            animation: scaleIn 0.4s ease-out forwards;
+        }
+
+        /* Staggered animation delays for children */
+        .stagger-1 {
+            animation-delay: 0.1s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .stagger-2 {
+            animation-delay: 0.2s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .stagger-3 {
+            animation-delay: 0.3s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .stagger-4 {
+            animation-delay: 0.4s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+
+        /* --- 탭 하이라이트 제거 --- */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--main-bg-color);
+            color: var(--text-color);
+            height: 100vh;
+            height: 100svh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            overscroll-behavior-y: contain;
+        }
+
+        /* ‼️ (신규) 모달 스타일 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg-color);
+            width: 100%;
+            max-width: 500px;
+            height: 80vh;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .app-frame {
+            background-color: var(--main-bg-color);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+
+        /* 상단 여백 */
+        .status-bar-padding {
+            padding-top: env(safe-area-inset-top, 20px);
+            background-color: var(--main-bg-color);
+            flex-shrink: 0;
+        }
+
+        /* === 탭 컨텐츠 영역 === */
+        .main-content {
+            flex-grow: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .tab-panel {
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background-color: var(--main-bg-color);
+        }
+
+        .tab-panel.active {
+            display: flex;
+        }
+
+        /* === '제어' / '부가' / '설정' 탭 스타일 === */
+        .controls-section {
+            padding: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-auto-rows: min-content;
+            gap: 12px;
+        }
+
+        /* ‼️ (수정) 부가/설정 탭 간격 축소 */
+        /* ‼️ (수정) 부가/설정 탭 간격 축소 */
+        .extras-section {
+            padding: 40px 12px 12px 12px;
+            /* 상단바 겹침 방지 (12px -> 40px) */
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .settings-section {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            /* (10px -> 8px) */
+        }
+
+        /* (개발자 설정 탭) */
+        .developer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 12px;
+        }
+
+        #debug-device-list p {
+            font-size: 14px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        #debug-device-list hr {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: 0 0 10px 0;
+        }
+
+        /* ‼️ (수정) 설명 여백 축소 */
+        .feature-description {
+            font-size: 14px;
+            color: var(--sub-text-color);
+            margin: -6px 0 10px 0;
+            /* (12px -> 10px) */
+            line-height: 1.4;
+        }
+
+        .button-row-grid-1 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        /* === API 입력 필드 (설정 탭) === */
+        #api-input-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        #api-url-input {
+            flex-grow: 1;
+            height: 65px;
+            background-color: #3a3a3a;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-color);
+            font-size: 14px;
+            padding: 0 15px;
+        }
+
+        #btnSaveApiUrl {
+            position: relative;
+            overflow: hidden;
+            flex-grow: 0;
+            width: 80px;
+            min-height: 65px;
+            background-color: var(--highlight-color);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 10px;
+        }
+
+
+        /* === 대시보드 카드 스타일 === */
+        #dashboard-card {
+            padding: 20px;
+            padding-bottom: 0;
+            background-color: #080808;
+            border-bottom: 1px solid #222;
+        }
+
+        .dashboard-info {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-title {
+            display: block;
+            font-size: 40px;
+            font-weight: 900;
+            color: var(--highlight-color);
+            text-transform: uppercase;
+        }
+
+        /* === 비밀 버튼 === */
+        .secret-settings-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 80px;
+            z-index: 3;
+            cursor: pointer;
+        }
+
+        .dashboard-plate {
+            display: block;
+            font-size: 16px;
+            color: var(--sub-text-color);
+            font-weight: 500;
+        }
+
+        .car-image-container {
+            width: 100%;
+            height: 280px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: radial-gradient(ellipse at center, #222 0%, #000 70%);
+        }
+
+        .car-image-container .car-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.4));
+        }
+
+        /* === (수정) 대시보드 상태 === */
+        .dashboard-status {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            /* 아이콘과 나머지 컨텐츠 간격 */
+            color: var(--sub-text-color);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 20px 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 20px;
+
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        /* (수정) 주행중 자동차 아이콘 스타일 */
+        .dashboard-status .fa-car {
+            font-size: 14px;
+            /* 다른 아이콘과 크기 맞춤 */
+            vertical-align: middle;
+            position: relative;
+            top: -1px;
+            /* 미세 조정 */
+        }
+
+        /* (레거시) 시동/위치용 */
+        #dashboard-status-text {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        #dashboard-status-time,
+        #dashboard-status-separator {
+            display: none;
+            font-weight: 600;
+            margin: 0 2px;
+        }
+
+        /* ================================== */
+
+
+        .dashboard-status.active {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* (수정) 주행중이 아닐 때만 (레거시) */
+        .dashboard-status.active #dashboard-status-time {
+            display: inline;
+            color: var(--accent-color);
+        }
+
+        /* (블루투스 색상) */
+        .dashboard-status.bluetooth-connected {
+            color: var(--bluetooth-color);
+        }
+
+        /* (수정) 주행중이 아닐 때만 (레거시) */
+        .dashboard-status.bluetooth-connected #dashboard-status-time {
+            color: var(--bluetooth-color);
+        }
+
+        /* (신규) 주행중일 때의 '주행중' 텍스트 색상 */
+        /* (수정) #dashboard-status-time에 적용 (순서가 바뀌었으므로) */
+        .dashboard-status.active #dashboard-status-time.driving-text {
+            color: var(--accent-color);
+        }
+
+        .dashboard-status.bluetooth-connected #dashboard-status-time.driving-text {
+            color: var(--bluetooth-color);
+        }
+
+        /* (신규) 주행중일 때의 거리/시간 텍스트 */
+        /* (수정) #dashboard-status-text에 적용 (순서가 바뀌었으므로) */
+        .dashboard-status #dashboard-status-text.driving-details {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-color);
+            /* 주행 거리/시간은 흰색 유지 */
+            display: inline-flex;
+            /* ‼️ 추가 */
+            gap: 12px;
+            /* ‼️ (수정) .detail-item + .detail-item 삭제 */
+        }
+
+        /* (신규) 주행중 디테일 내부 아이콘 */
+        .driving-details .fas {
+            font-size: 13px;
+            color: var(--sub-text-color);
+            margin-right: 6px;
+        }
+
+        .driving-details .detail-item {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* ========================================= */
+
+
+        /* === 주차 위치 카드 디자인 === */
+        /* ‼️ (수정) info-list 간격 축소 */
+        .info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            /* (10px -> 8px) */
+            margin-top: 5px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .info-icon {
+            font-size: 16px;
+            color: var(--sub-text-color);
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .info-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ‼️ (수정) 주행 기록 2x2 텍스트 그리드 간격 축소 */
+        .stats-grid-text {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            /* (12px -> 10px) */
+            margin-top: 12px;
+            /* (15px -> 12px) */
+            padding-top: 12px;
+            /* (15px -> 12px) */
+            border-top: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            /* 라벨과 값을 세로로 배치 */
+            gap: 4px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--sub-text-color);
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        /* ========================================= */
+
+        /* === (블루투스 표시등) === */
+        .status-display {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+        }
+
+        .status-indicator {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #555;
+            /* 기본 회색 */
+            transition: background-color 0.3s ease;
+        }
+
+        .status-indicator.connected {
+            background-color: var(--success-color);
+            /* 초록색 */
+            box-shadow: 0 0 10px var(--success-color);
+        }
+
+        .status-indicator.disconnected {
+            background-color: var(--highlight-color);
+            /* 빨간색 */
+        }
+
+        #bluetooth-status-text {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        /* ================================================== */
+
+
+        /* --- 버튼 그룹 카드 --- */
+        /* ‼️ (수정) 카드 내부 패딩 축소 */
+        .control-group-card {
+            background-color: var(--button-bg-color);
+            border-radius: var(--button-radius);
+            padding: 10px 15px;
+            /* (12px 15px -> 10px 15px) */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-half {
+            grid-column: span 1;
+        }
+
+        .card-full {
+            grid-column: 1 / -1;
+        }
+
+        /* ‼️ (수정) 카드 제목 여백 축소 */
+        .control-group-card h4 {
+            margin: 0 0 8px 0;
+            /* (10px -> 8px) */
+            font-size: 17px;
+            font-weight: 600;
+            color: white;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+            /* (8px -> 6px) */
+            flex-shrink: 0;
+        }
+
+        /* (블루투스 설정 버튼용) */
+        #btnSetupBluetooth {
+            background-color: var(--highlight-color);
+            /* 빨간색 */
+        }
+
+        /* 레이아웃 (제어 탭) */
+        .button-col-flex {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        .button-row-grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .button-row-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        /* --- 그룹 내부 버튼 --- */
+        /* ‼️ (수정) 버튼 높이 축소 */
+        .action-button-grouped {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            flex-grow: 1;
+            min-height: 60px;
+            /* (65px -> 60px) */
+            background-color: #3a3a3a;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            padding: 10px;
+            line-height: 1.3;
+            touch-action: manipulation;
+        }
+
+        .button-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.1s linear;
+            z-index: 2;
+        }
+
+        .action-button-grouped:active {
+            transform: scale(0.98);
+        }
+
+        /* === 확장된 'Stop' 버튼 스타일 === */
+        #btnEngineStop.large-button {
+            background-color: var(--accent-color);
+            /* (버튼 주황색) */
+            color: #000;
+            font-weight: 700;
+        }
+
+        #btnEngineStop.large-button .button-text {
+            font-size: 18px;
+            color: #000;
+        }
+
+        /* === 숨겨진 'Start' 버튼 === */
+        #btnEngineStart.hidden {
+            display: none;
+        }
+
+        /* --- 롱프레스 시각 효과 --- */
+        .long-press-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: var(--accent-color);
+            /* (버튼 주황색) */
+            transform: scaleX(0);
+            transform-origin: left;
+            opacity: 0.6;
+            transition: transform var(--long-press-duration) linear,
+                opacity var(--long-press-duration) linear;
+            z-index: 1;
+        }
+
+        .action-button-grouped.holding .long-press-fill {
+            transform: scaleX(1);
+            opacity: 1;
+        }
+
+        .action-button-grouped.holding .button-text {
+            color: #000;
+        }
+
+
+
+        /* === 버튼 피드백 상태 === */
+        .action-button-grouped.sending {
+            background-color: var(--accent-color);
+            /* (버튼 주황색) */
+        }
+
+        .action-button-grouped.sending .button-text {
+            color: #000;
+        }
+
+        .action-button-grouped.success {
+            background-color: var(--success-color);
+        }
+
+        .action-button-grouped.success .button-text {
+            color: #000;
+        }
+
+        .action-button-grouped.danger {
+            background-color: var(--danger-color);
+            /* (버튼 주황색) */
+        }
+
+        .action-button-grouped.danger .button-text {
+            color: #000;
+        }
+
+        .action-button-grouped.cooldown {
+            background-color: var(--cooldown-color);
+            /* 노란색 */
+        }
+
+        .action-button-grouped.cooldown .button-text {
+            color: #333;
+            /* 어두운 글씨 */
+        }
+
+        /* 부가기능 매크로 실행 중 */
+        .action-button-grouped.active {
+            background-color: var(--accent-color);
+            /* (버튼 주황색) */
+        }
+
+        .action-button-grouped.active .button-text {
+            color: #000;
+        }
+
+        .action-button-grouped.active .timer-display {
+            display: block;
+            color: #222;
+            font-weight: 600;
+        }
+
+        .action-button-grouped:disabled {
+            background-color: #2a2a2a;
+            /* 더 어둡게 */
+            color: var(--sub-text-color);
+            cursor: not-allowed;
+            opacity: 0.6;
+            /* 옅게 */
+        }
+
+
+        /* === 타이머 스타일 === */
+        .timer-display {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-top: 5px;
+            display: none;
+            /* 평소엔 숨김 */
+            z-index: 2;
+        }
+
+        #btnEngineStop.large-button .timer-display {
+            display: block;
+            /* 확장 시 보이기 */
+            color: #222;
+            font-weight: 600;
+        }
+
+        /* === 하단 탭 내비게이션 === */
+        .footer-nav {
+            display: flex;
+            background-color: var(--card-bg-color);
+            border-top: 1px solid var(--border-color);
+            flex-shrink: 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+            padding-bottom: env(safe-area-inset-bottom, 0);
+
+            /* Slide up with delay */
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 0;
+            color: var(--sub-text-color);
+            cursor: pointer;
+            transition: color 0.2s ease;
+            height: 60px;
+        }
+
+        .nav-item i {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item span {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .nav-item.active {
+            color: var(--highlight-color);
+            /* (어두운 빨강) */
+        }
+
+        .nav-item:active {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        #status {
+            flex-shrink: 0;
+            width: 100%;
+            padding: 0 15px;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 500;
+            box-sizing: border-box;
+
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.2s ease, padding 0.3s ease-out;
+            order: 4;
+        }
+
+        #status.visible {
+            padding: 15px;
+            max-height: 100px;
+            opacity: 1;
+        }
+
+        /* .app-frame의 flex 순서 명시 */
+        .status-bar-padding {
+            order: 1;
+        }
+
+        .main-content {
+            order: 2;
+        }
+
+        .footer-nav {
+            order: 3;
+        }
+
+        /* === 주행 이력 스타일 (Redesign) === */
+
+        /* 섹션 헤더 스타일 */
+        .section-header {
+            color: #E65100;
+            /* 오렌지색 포인트 (TODAY'S DRIVE 등) */
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .section-header.blue {
+            color: #00E5FF;
+            /* 청록색 포인트 (TOTAL PROFILE 등) */
+        }
+
+        .section-header.gray {
+            color: #888;
+            /* 회색 포인트 (DRIVING HISTORY) */
+            margin-top: 20px;
+        }
+
+        /* 카드 공통 스타일 update */
+        .history-content-wrapper {
+            padding: 20px;
+            padding-top: 10px;
+        }
+
+        .history-card {
+            background-color: #1A1A1A;
+            /* 더 어두운 배경 */
+            border-radius: 12px;
+            padding: 20px;
+            /* 16px -> 20px padding increased */
+            margin-bottom: 20px;
+            /* 12px -> 20px margin increased */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 1px solid #333;
+        }
+
+        /* 1. Total Profile 스타일 */
+        .total-profile-container {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            /* Explicit padding for total profile too */
+        }
+
+        /* ... skipped ... */
+
+        /* 3. History List Item - New Look */
+        /* ... skipped ... */
+
+        .list-stats-box {
+            background-color: #222;
+            /* 내부 박스 */
+            border-radius: 8px;
+            padding: 14px 0;
+            /* 12px -> 14px vertical padding increased */
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .total-left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .total-big-value {
+            font-size: 42px;
+            font-weight: 700;
+            color: #00E5FF;
+            line-height: 1;
+        }
+
+        .total-big-unit {
+            font-size: 16px;
+            color: #888;
+            font-weight: 400;
+        }
+
+        .total-right-grid {
+            flex: 1.5;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            border-left: 1px solid #444;
+            /* 구분선 */
+            padding-left: 15px;
+        }
+
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .grid-label {
+            font-size: 11px;
+            color: #888;
+        }
+
+        .grid-value {
+            font-size: 14px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .grid-sub {
+            font-size: 11px;
+            color: #aaa;
+        }
+
+        /* 2. Today's Drive & List Common */
+        .card-title {
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .card-date {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .main-stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .stat-col {
+            text-align: center;
+            position: relative;
+            flex: 1;
+        }
+
+        .stat-col:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 10%;
+            height: 80%;
+            width: 1px;
+            background-color: #444;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #888;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .stat-value-big {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .stat-unit-big {
+            font-size: 14px;
+            color: #888;
+            font-weight: 400;
+        }
+
+        .stat-value-mid {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        /* 3. History List Item - New Look */
+        .list-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 15px;
+        }
+
+        .list-date-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .list-date-main {
+            font-size: 15px;
+            font-weight: 600;
+            color: #e0e0e0;
+        }
+
+        .list-time-range {
+            font-size: 12px;
+            color: #666;
+            text-align: right;
+        }
+
+        .list-big-dist {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .list-stats-box {
+            background-color: #222;
+            /* 내부 박스 */
+            border-radius: 8px;
+            padding: 12px 0;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .history-address {
+            font-size: 13px;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            line-height: 1.4;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .history-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 12px;
+        }
+
+        .history-stat-item {
+            color: var(--sub-text-color);
+        }
+
+        .history-stat-value {
+            color: var(--text-color);
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
+        #btnToggleHistory {
+            background-color: #3a3a3a;
+        }
+
+        #btnClearHistory {
+            margin-top: 20px;
+            margin-bottom: 30px;
+            background-color: transparent;
+            border: 1px solid #444;
+            color: #888;
+            font-size: 13px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* === 주행 이력 요약 디자인 === */
+        .history-summary-card {
+            background: linear-gradient(135deg, #1f1f1f 0%, #171717 100%);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 15px;
+            display: flex;
+            justify-content: space-around;
+            border: 1px solid #333;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-label {
+            display: block;
+            font-size: 11px;
+            color: var(--sub-text-color);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-value {
+            display: block;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .history-header-nav {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid #222;
+        }
+
+        .btn-back-history {
+            color: var(--text-color);
+            font-size: 18px;
+            padding: 5px;
+        }
+
+        .history-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .history-section-list {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-frame">
+
+        <div class="status-bar-padding"></div>
+
+        <div class="main-content">
+
+            <div class="tab-panel active" id="tab-control">
+                <div class="controls-section">
+
+                    <div class="control-group-card card-full" id="dashboard-card">
+                        <div class="dashboard-info">
+                            <div class="secret-settings-button" id="btnSecretSettings"></div>
+
+                            <span class="dashboard-title">TRAVERSE</span>
+                            <span class="dashboard-plate">2023 3.6 REDLINE</span>
+                        </div>
+
+                        <div class="car-image-container">
+                            <img src="my_car.png" alt="My Car" class="car-image">
+                        </div>
+
+                        <div class="dashboard-status" id="dashboard-status-display">
+                            <i class="fas fa-info-circle"></i> <span id="dashboard-status-time"
+                                style="display: none;"></span> <span id="dashboard-status-separator"
+                                style="display: none; color: var(--border-color); margin: 0 5px;">|</span>
+                            <span id="dashboard-status-text">차량 상태 정상</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group-card card-half" id="engine-card">
+                        <h4>Engine</h4>
+                        <div class="button-col-flex" id="engine-button-stack">
+                            <div class="action-button-grouped long-press" id="btnEngineStart" data-cmd="VEHICLE_START"
+                                data-name="시동 켜기">
+                                <div class="long-press-fill"></div>
+                                <span class="button-text">Start</span>
+                            </div>
+                            <div class="action-button-grouped" id="btnEngineStop" data-cmd="VEHICLE_STOP"
+                                data-name="시동 끄기">
+                                <span class="button-text">Stop</span>
+                                <span class="timer-display" id="engine-timer"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group-card card-half" id="doors-card">
+                        <h4>Doors</h4>
+                        <div class="button-col-flex">
+                            <div class="action-button-grouped long-press" id="btnDoorUnlock" data-cmd="DOOR_UNLOCK"
+                                data-name="문 열림">
+                                <div class="long-press-fill"></div>
+                                <span class="button-text">Unlock</span>
+                            </div>
+                            <div class="action-button-grouped" id="btnDoorLock" data-cmd="DOOR_LOCK" data-name="문 잠금">
+                                <span class="button-text">Lock</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group-card card-full">
+                        <h4>Trunk</h4>
+                        <div class="button-row-grid-2">
+                            <div class="action-button-grouped long-press" id="btnTrunkOpen" data-cmd="TRUNK_OPEN"
+                                data-name="트렁크 열기">
+                                <div class="long-press-fill"></div>
+                                <span class="button-text">Open</span>
+                            </div>
+                            <div class="action-button-grouped" id="btnTrunkClose" data-cmd="TRUNK_CLOSE"
+                                data-name="트렁크 닫기">
+                                <span class="button-text">Close</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group-card card-full">
+                        <h4>Window</h4>
+                        <div class="button-row-grid-2">
+                            <div class="action-button-grouped long-press" id="btnWindowOpen" data-cmd="WINDOW_OPEN"
+                                data-name="창문 열기">
+                                <div class="long-press-fill"></div>
+                                <span class="button-text">Open</span>
+                            </div>
+                            <div class="action-button-grouped" id="btnWindowClose" data-cmd="WINDOW_CLOSE"
+                                data-name="창문 닫기">
+                                <span class="button-text">Close</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group-card card-full">
+                        <h4>Sunroof</h4>
+                        <div class="button-row-grid-3">
+                            <div class="action-button-grouped long-press" id="btnSunroofOpen" data-cmd="SUNROOF_OPEN"
+                                data-name="선루프 열기">
+                                <div class="long-press-fill"></div>
+                                <span class="button-text">Open</span>
+                            </div>
+                            <div class="action-button-grouped long-press" id="btnSunroofTilt" data-cmd="SUNROOF_TILT"
+                                data-name="선루프 틸트">
+                                <div class="long-press-fill"></div>
+                                <span class="button-text">Tilt</span>
+                            </div>
+                            <div class="action-button-grouped" id="btnSunroofClose" data-cmd="SUNROOF_CLOSE"
+                                data-name="선루프 닫기">
+                                <span class="button-text">Close</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="tab-panel" id="tab-extras">
+                <div class="extras-section">
+
+                    <div class="control-group-card card-full">
+                        <h4>최근 주행 기록</h4>
+                        <div class="info-list" style="margin-top: 5px;">
+                            <div class="info-row">
+                                <i class="fas fa-clock info-icon"></i>
+                                <span class="info-value" id="saved-location-time">--:--</span>
+                            </div>
+                            <div class="info-row">
+                                <i class="fas fa-map-marker-alt info-icon"></i>
+                                <span class="info-value" id="saved-location-text">저장된 위치 없음</span>
+                            </div>
+                        </div>
+
+                        <div class="stats-grid-text">
+                            <div class="stat-item">
+                                <span class="stat-label">주행시간:</span>
+                                <span class="stat-value" id="saved-drive-time">--:--:--</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">주행거리:</span>
+                                <span class="stat-value" id="saved-drive-dist">-- km</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">최고속도:</span> <span class="stat-value" id="saved-top-speed">--
+                                    km/h</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">평균속도:</span> <span class="stat-value" id="saved-avg-speed">--
+                                    km/h</span>
+                            </div>
+                        </div>
+                        <div class="button-row-grid-2" style="margin-top: 12px;">
+                            <div class="action-button-grouped" id="btnLoadLocation">
+                                <span class="button-text">
+                                    <i class="fas fa-map-marked-alt"></i>
+                                    주차 위치
+                                </span>
+                            </div>
+                            <div class="action-button-grouped" id="btnToggleHistory">
+                                <span class="button-text">
+                                    <i class="fas fa-history"></i>
+                                    주행 이력 보기
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group-card card-full">
+                        <h4>환기 모드</h4>
+                        <p class="feature-description">창문을 열어 5분간 환기한 후, 자동으로 창문을 닫습니다.</p>
+                        <div class="button-row-grid-1">
+                            <div class="action-button-grouped" id="btnVentilation" data-name="환기 모드">
+                                <span class="button-text">환기 모드 시작</span>
+                                <span class="timer-display" id="ventilation-timer"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group-card card-full">
+                        <h4>열 배출 모드</h4>
+                        <p class="feature-description">탑승 전, 창문/선루프를 열고 시동을 켭니다. 5분 후 창문/선루프를 닫습니다. (시동 유지)</p>
+                        <div class="button-row-grid-1">
+                            <div class="action-button-grouped" id="btnHeatEject" data-name="열 배출 모드">
+                                <span class="button-text">열 배출 시작</span>
+                                <span class="timer-display" id="heat-eject-timer"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group-card card-full">
+                        <h4>내 차 찾기</h4>
+                        <p class="feature-description">차량의 경적을 울려 위치를 확인합니다.</p>
+                        <div class="button-row-grid-1">
+                            <div class="action-button-grouped long-press" id="btnFindMyCar" data-cmd="PANIC"
+                                data-name="경적 울리기">
+                                <div class="long-press-fill"></div>
+                                <span class="button-text">경적 울리기</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- === ‼️ 신규: 주행 이력 전용 탭 === -->
+            <div class="tab-panel" id="tab-history">
+                <div class="history-header-nav">
+                    <div class="btn-back-history" id="btnBackFromHistory">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    <span class="history-title">주행 리포트</span>
+                </div>
+
+                <!-- Wrapper for padding -->
+                <div class="history-content-wrapper">
+                    <!-- 1. Total Profile Section -->
+                    <div class="section-header blue">Total Profile</div>
+                    <div class="history-card total-profile-container">
+                        <div class="total-left">
+                            <div class="grid-label">총 누적 거리</div>
+                            <div>
+                                <span class="total-big-value" id="total-dist-val">0.0</span>
+                                <span class="total-big-unit">km</span>
+                            </div>
+                        </div>
+                        <div class="total-right-grid">
+                            <div class="grid-item">
+                                <span class="grid-label">최고 속도</span>
+                                <span class="grid-value" id="total-top-speed">0 km/h</span>
+                            </div>
+                            <div class="grid-item">
+                                <span class="grid-label">최장 거리</span>
+                                <span class="grid-value" id="total-max-dist">0.0 km</span>
+                            </div>
+                            <div class="grid-item">
+                                <span class="grid-label">누적 시간</span>
+                                <span class="grid-value" id="total-time">00:00:00</span>
+                            </div>
+                            <div class="grid-item">
+                                <span class="grid-label">최장 운전</span>
+                                <span class="grid-value" id="total-max-time">00:00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Today's Drive Section -->
+                    <div class="section-header">TODAY'S DRIVE</div>
+                    <div class="history-card">
+                        <!-- New Header Row -->
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #333;">
+                            <span id="today-date-display" style="font-size: 16px; font-weight: 700; color: #fff;">12월
+                                18일 (목)</span>
+                            <span style="font-size: 11px; font-weight: 600; color: #E65100; letter-spacing: 1px;">TODAY
+                                SUMMARY</span>
+                        </div>
+
+                        <div class="main-stat-row">
+                            <div class="stat-col">
+                                <span class="stat-label">오늘 주행</span>
+                                <div>
+                                    <span class="stat-value-big" id="today-dist">0.0</span>
+                                    <span class="stat-unit-big">km</span>
+                                </div>
+                            </div>
+                            <div class="stat-col">
+                                <span class="stat-label">주행 시간</span>
+                                <div class="stat-value-mid" id="today-time">00:00:00</div>
+                            </div>
+                            <div class="stat-col">
+                                <span class="stat-label">평균 속도</span>
+                                <div class="stat-value-mid" id="today-avg">0 km/h</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Driving History List -->
+                    <div class="section-header gray">DRIVING HISTORY</div>
+                    <div id="history-list-container">
+                        <!-- JS renders items here -->
+                    </div>
+
+                    <div style="padding: 15px 0 30px 0;">
+                        <div id="btnClearHistory"
+                            style="text-decoration: underline; color: #666; font-size: 13px; text-align: center;">이력
+                            전체
+                            삭제</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-panel" id="tab-settings">
+                <div class="settings-section">
+
+                    <div class="control-group-card card-full">
+                        <h4>설정</h4>
+                        <div class="button-row-grid-1">
+                            <div class="action-button-grouped" id="btnGoToControlTab">
+                                <span class="button-text">
+                                    <i class="fas fa-arrow-left"></i>
+                                    제어 탭으로 돌아가기
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group-card card-full">
+                        <h4>API 설정</h4>
+                        <p class="feature-description">API URL을 입력하세요. `&cmd=...` 부분은 자동으로 제거됩니다.</p>
+                        <div id="api-input-container">
+                            <input type="text" id="api-url-input" placeholder="(API 키 없음)">
+                            <div id="btnSaveApiUrl" class="action-button-grouped">
+                                저장
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group-card card-full">
+                        <h4>블루투스 설정 (최초 1회)</h4>
+                        <p class="feature-description">
+                            연결 인식이 안될 경우, 여기서 'myChevrolet'를 직접 선택하여 기기를 등록하세요.
+                        </p>
+                        <div class="button-row-grid-1">
+                            <div class="action-button-grouped" id="btnSetupBluetooth" data-name="블루투스 설정">
+                                <span class="button-text">페어링 목록에서 차량 선택</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group-card card-full">
+                        <h4>개발자 설정</h4>
+                        <p class="feature-description">
+                            블루투스 연결 테스트 및 기기 목록을 확인합니다.
+                        </p>
+                        <div class="button-row-grid-1">
+                            <div class="action-button-grouped" id="btnGoToDeveloper">
+                                <span class="button-text">
+                                    <i class="fas fa-code"></i>
+                                    개발자 설정 열기
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="tab-panel" id="tab-developer">
+                <div class="developer-section">
+
+                    <div class="control-group-card card-full">
+                        <h4>돌아가기</h4>
+                        <div class="button-row-grid-1">
+                            <div class="action-button-grouped" id="btnGoToSettings">
+                                <span class="button-text">
+                                    <i class="fas fa-arrow-left"></i>
+                                    설정 탭으로 돌아가기
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group-card card-full">
+                        <h4>블루투스 상태</h4>
+                        <p class="feature-description">'myChevrolet' 연결 상태 (실제/가상)</p>
+                        <div class="status-display">
+                            <div class="status-indicator disconnected" id="bluetooth-status-indicator"></div>
+                            <span id="bluetooth-status-text">연결 끊김</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group-card card-full">
+                        <h4>개발자 테스트</h4>
+                        <p class="feature-description">(테스트 전용) 'mycar' 블루투스 연결 상태를 강제로 토글합니다.</p>
+                        <div class="button-row-grid-1">
+                            <div class="action-button-grouped" id="btnToggleBluetooth" data-name="블루투스 테스트">
+                                <span class="button-text">블루투스 테스트 토글</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group-card card-full">
+                        <h4>디버그: 현재 연결된 기기</h4>
+                        <p class="feature-description">
+                            'myChevrolet'가 연결된 상태에서 '새로고침'을 누르세요.
+                            이름이 'null'로 표시되는지, 주소가 올바른지 확인하세요.
+                        </p>
+                        <div class="button-row-grid-1">
+                            <div class="action-button-grouped" id="btnRefreshDevices">
+                                <span class="button-text">새로고침</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group-card card-full">
+                        <h4>기기 목록:</h4>
+                        <div id="debug-device-list">
+                            <p><i>새로고침 버튼을 누르세요...</i></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div> <!-- main-content end -->
+
+    <div id="status">상태: 대기 중...</div>
+
+    <div class="footer-nav">
+        <div class="nav-item active" data-target="tab-control">
+            <i class="fas fa-car"></i>
+            <span>제어</span>
+        </div>
+        <div class="nav-item" data-target="tab-extras">
+            <i class="fas fa-ellipsis-h"></i>
+            <span>부가 기능</span>
+        </div>
+    </div>
+
+    </div> <!-- app-frame end -->
+
+    </div> <!-- app-frame end -->
+
+    <script>
+        // === JavaScript 로직 ===
+
+        const statusDiv = document.getElementById('status');
+        const longPressDuration = 500; // 0.5초
+        let longPressTimer = null;
+        let statusTimer = null;
+
+        // --- 엔진 버튼 ---
+        const btnEngineStart = document.getElementById('btnEngineStart');
+        const btnEngineStop = document.getElementById('btnEngineStop');
+        const engineTimerDisplay = document.getElementById('engine-timer');
+
+        // --- 부가 기능 버튼 ---
+        const btnVentilation = document.getElementById('btnVentilation');
+        const ventilationTimerDisplay = document.getElementById('ventilation-timer');
+        const btnHeatEject = document.getElementById('btnHeatEject');
+        const heatEjectTimerDisplay = document.getElementById('heat-eject-timer');
+        const btnLoadLocation = document.getElementById('btnLoadLocation');
+        // ‼️ (수정) 부가기능 탭 ID 가져오기
+        const savedLocationText = document.getElementById('saved-location-text');
+        const savedLocationTime = document.getElementById('saved-location-time');
+        const savedDriveDist = document.getElementById('saved-drive-dist');
+        const savedDriveTime = document.getElementById('saved-drive-time');
+        const savedAvgSpeed = document.getElementById('saved-avg-speed');
+        const savedTopSpeed = document.getElementById('saved-top-speed');
+
+        // --- 설정 탭 버튼 ---
+        const btnSaveApiUrl = document.getElementById('btnSaveApiUrl');
+        const apiUrlInput = document.getElementById('api-url-input');
+        const btnGoToControlTab = document.getElementById('btnGoToControlTab');
+        const btnSecretSettings = document.getElementById('btnSecretSettings');
+        const btnSetupBluetooth = document.getElementById('btnSetupBluetooth');
+
+        // --- ‼️ 개발자 탭 버튼 (신규) ‼️ ---
+        const btnGoToDeveloper = document.getElementById('btnGoToDeveloper');
+        const btnGoToSettings = document.getElementById('btnGoToSettings');
+        const btnToggleBluetooth = document.getElementById('btnToggleBluetooth');
+        const btnRefreshDevices = document.getElementById('btnRefreshDevices');
+        const bluetoothStatusIndicator = document.getElementById('bluetooth-status-indicator');
+        const bluetoothStatusText = document.getElementById('bluetooth-status-text');
+
+
+        // === 네이티브(Kotlin)에서 JavaScript를 호출하는 함수들 ===
+
+        // 1. 상태 바 업데이트
+        function showStatus(message, type = 'info', duration = 3000) {
+            clearTimeout(statusTimer);
+            statusDiv.textContent = message;
+            statusDiv.classList.add('visible');
+
+            if (type === 'success') {
+                statusDiv.style.backgroundColor = "var(--success-color)";
+                statusDiv.style.color = "white";
+            } else if (type === 'danger') {
+                statusDiv.style.backgroundColor = "var(--danger-color)";
+                statusDiv.style.color = "white";
+            } else { // info / sending
+                statusDiv.style.backgroundColor = "#ffc107";
+                statusDiv.style.color = "#333";
+            }
+
+            statusTimer = setTimeout(() => {
+                statusDiv.classList.remove('visible');
+            }, duration);
+        }
+
+        // 2. 버튼 피드백 (성공/실패)
+        function setButtonFeedback(buttonId, state) { // state: 'success', 'danger', 'cooldown', 'sending'
+            const button = document.getElementById(buttonId);
+            if (!button) {
+                console.log("Button not found for feedback:", buttonId);
+                return;
+            }
+
+            button.classList.remove('sending', 'success', 'danger', 'cooldown');
+
+            if (state === 'success' || state === 'danger' || state === 'cooldown') {
+                button.classList.add(state);
+                setTimeout(() => {
+                    button.classList.remove(state);
+                }, 1000);
+            }
+            else if (state === 'sending') {
+                button.classList.add(state);
+            }
+        }
+
+        // 3. 엔진 UI 업데이트
+        function updateEngineUI(isEngineOn) {
+            if (isEngineOn) {
+                btnEngineStart.classList.add('hidden');
+                btnEngineStop.classList.add('large-button');
+            } else {
+                btnEngineStart.classList.remove('hidden');
+                btnEngineStop.classList.remove('large-button');
+                engineTimerDisplay.style.display = 'none';
+            }
+        }
+
+        // 4. 엔진 타이머 텍스트 업데이트
+        function updateEngineTimer(timeString) {
+            engineTimerDisplay.style.display = 'block';
+            engineTimerDisplay.textContent = timeString;
+        }
+
+        // 5. 환기 모드 UI 업데이트
+        function updateVentilationUI(isVentilating, timeString = '') {
+            if (isVentilating) {
+                btnVentilation.classList.add('active');
+                btnVentilation.querySelector('.button-text').textContent = '환기 작동 중';
+                ventilationTimerDisplay.textContent = '(' + timeString + ')';
+                ventilationTimerDisplay.style.display = 'block';
+                btnVentilation.disabled = false;
+            } else {
+                btnVentilation.classList.remove('active', 'success', 'danger');
+                btnVentilation.querySelector('.button-text').textContent = '환기 모드 시작';
+                ventilationTimerDisplay.style.display = 'none';
+                btnVentilation.disabled = false;
+            }
+        }
+
+        // 6. 열 배출 모드 UI 업데이트
+        function updateHeatEjectUI(isEjecting, timeString = '') {
+            if (isEjecting) {
+                btnHeatEject.classList.add('active');
+                btnHeatEject.querySelector('.button-text').textContent = '열 배출 작동 중';
+                heatEjectTimerDisplay.textContent = '(' + timeString + ')';
+                heatEjectTimerDisplay.style.display = 'block';
+                btnHeatEject.disabled = false;
+            } else {
+                btnHeatEject.classList.remove('active', 'success', 'danger');
+                btnHeatEject.querySelector('.button-text').textContent = '열 배출 시작';
+                heatEjectTimerDisplay.style.display = 'none';
+                btnHeatEject.disabled = false;
+            }
+        }
+
+        // 7. 부가기능 버튼 비활성화 (API 호출 딜레이 중)
+        function setExtrasButtonsDisabled(disabled) {
+            btnVentilation.disabled = disabled;
+            btnHeatEject.disabled = disabled;
+        }
+
+        // 8. ‼️ (수정) 대시보드 상태 업데이트 (복합 로직)
+        function updateDashboardStatus(message, timeString, iconName, isActive, isBluetoothConnected) {
+            const display = document.getElementById('dashboard-status-display');
+            const icon = display.querySelector('i');
+            const timeEl = document.getElementById('dashboard-status-time');
+            const separator = document.getElementById('dashboard-status-separator');
+            const textEl = document.getElementById('dashboard-status-text');
+
+            if (!display || !icon || !timeEl || !separator || !textEl) return;
+
+            // --- 1. 모든 요소 초기화 ---
+            timeEl.style.display = 'none';
+            separator.style.display = 'none';
+            textEl.innerHTML = '';
+            timeEl.innerHTML = '';
+            textEl.className = '';
+            timeEl.className = '';
+
+            // --- 2. 아이콘 설정 ---
+            let iconPrefix = 'fas';
+            icon.className = `${iconPrefix} fa-${iconName}`;
+
+            // --- 3. ‼️ 컨텐츠 분기 (순서 수정됨) ‼️ ---
+            // (Kotlin에서 "아이콘: fa-car" 및 "timeString: 거리|시간" 형식으로 보냄)
+            if (iconName === 'car' && timeString.includes('|')) {
+                // ‼️ Case 1: 주행 중 상태
+                // (차) 주행중 | (road) 15km (clock) 30min
+                const parts = timeString.split('|');
+                const distance = parts[0];
+                const time = parts[1];
+
+                // ‼️ 1. (차) 주행중 (이것을 timeEl에 넣음)
+                timeEl.textContent = message; // "주행중"
+                timeEl.classList.add('driving-text'); // (색상 적용을 위해)
+                timeEl.style.display = 'inline';
+
+                // 2. |
+                separator.style.display = 'inline';
+
+                // ‼️ 3. (road) 15km (clock) 30min (이것을 textEl에 넣음)
+                textEl.innerHTML = `
+                <span class="detail-item">
+                    <i class="fas fa-road"></i>
+                    <span>${distance}</span>
+                </span>
+                <span class="detail-item">
+                    <i class="fas fa-clock"></i>
+                    <span>${time}</span>
+                </span>
+            `;
+                textEl.classList.add('driving-details'); // (스타일 적용을 위해)
+
+            } else {
+                // ‼️ Case 2: 레거시 상태 (시동, 위치, 오류 등)
+                // (icon) 14:52 | Incheon, KR
+
+                textEl.textContent = message; // "Incheon, KR" or "시동 켜짐"
+
+                if (timeString) {
+                    timeEl.textContent = timeString.replace(/[()]/g, ''); // "14:52" or "10:00 남음"
+                    timeEl.style.display = 'inline';
+
+                    if (message) {
+                        separator.style.display = 'inline';
+                    }
+                }
+            }
+
+            // --- 4. 활성 상태 (색상) ---
+            if (isActive) {
+                display.classList.add('active');
+            } else {
+                display.classList.remove('active');
+            }
+
+            if (isBluetoothConnected && iconName !== 'exclamation-triangle') {
+                display.classList.add('bluetooth-connected');
+            } else {
+                display.classList.remove('bluetooth-connected');
+            }
+
+            // --- 5. 시동 버튼 비활성화 ---
+            if (btnEngineStart && btnEngineStop) {
+                btnEngineStart.disabled = isBluetoothConnected;
+                btnEngineStop.disabled = isBluetoothConnected;
+            }
+        }
+        // ======================================
+
+
+        // 9. API 입력창 관련
+        function populateApiUrl(statusText) {
+            if (apiUrlInput) {
+                apiUrlInput.placeholder = statusText;
+            }
+        }
+        function clearApiUrlInput() {
+            if (apiUrlInput) {
+                apiUrlInput.value = ""; // 입력창 비우기
+            }
+        }
+
+        // 10. ‼️ (수정) 저장된 위치 텍스트 업데이트 (6개 인자)
+        function updateSavedLocation(text, time, dist, driveTime, avgSpeed, topSpeed) {
+            if (savedLocationText) {
+                savedLocationText.textContent = text || "저장된 위치 없음";
+            }
+            if (savedLocationTime) {
+                savedLocationTime.textContent = time.replace(/[()]/g, '') || "--:--";
+            }
+            // ‼️ (신규) 주행 기록 업데이트
+            if (savedDriveDist) {
+                savedDriveDist.textContent = dist || "-- km";
+            }
+            if (savedDriveTime) {
+                savedDriveTime.textContent = driveTime || "--:--:--";
+            }
+            if (savedAvgSpeed) {
+                savedAvgSpeed.textContent = avgSpeed || "-- km/h";
+            }
+            if (savedTopSpeed) {
+                savedTopSpeed.textContent = topSpeed || "-- km/h";
+            }
+        }
+
+        // 11. (신규) 블루투스 디버그 UI 업데이트
+        function updateBluetoothDebugStatus(isConnected) {
+            if (bluetoothStatusIndicator && bluetoothStatusText) {
+                if (isConnected) {
+                    bluetoothStatusIndicator.classList.remove('disconnected');
+                    bluetoothStatusIndicator.classList.add('connected');
+                    bluetoothStatusText.textContent = "연결됨 (myChevrolet)";
+                } else {
+                    bluetoothStatusIndicator.classList.remove('connected');
+                    bluetoothStatusIndicator.classList.add('disconnected');
+                    bluetoothStatusText.textContent = "연결 끊김";
+                }
+            }
+        }
+
+        // 12. ‼️ 신규: 디버그 탭 장치 목록 업데이트
+        function updateDeviceList(htmlContent) {
+            const listDiv = document.getElementById('debug-device-list');
+            if (listDiv) {
+                if (htmlContent) {
+                    listDiv.innerHTML = htmlContent;
+                } else {
+                    listDiv.innerHTML = '<p><i>연결된 기기 없음.</i></p>';
+                }
+            }
+        }
+
+
+        // === 롱프레스 핸들러 ===
+        function handleTouchStart(e) {
+            e.preventDefault();
+            const button = e.currentTarget;
+            button.classList.add('holding');
+
+            longPressTimer = setTimeout(() => {
+                button.classList.remove('holding');
+
+                const cmdKey = button.dataset.cmd;
+                const cmdName = button.dataset.name;
+
+                if (window.Android) {
+                    window.Android.handleLongPress(cmdKey, cmdName, button.id);
+                } else {
+                    showStatus('네이티브 브릿지(Android)를 찾을 수 없습니다.', 'danger');
+                }
+
+            }, longPressDuration);
+        }
+
+
+
+        function handleTouchEnd(e) {
+            e.preventDefault();
+            clearTimeout(longPressTimer);
+            const button = e.currentTarget;
+            button.classList.remove('holding');
+        }
+
+
+
+        // === 이벤트 리스너 등록 ===
+        // 1. 롱프레스 버튼
+        document.querySelectorAll('.long-press').forEach(button => {
+            button.addEventListener('touchstart', handleTouchStart);
+            button.addEventListener('touchend', handleTouchEnd);
+        });
+
+        // 2. 일반 클릭 버튼 (제어 탭 전용)
+        document.querySelectorAll('#tab-control .action-button-grouped:not(.long-press)').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const buttonElement = e.currentTarget;
+                const cmdKey = buttonElement.dataset.cmd;
+                const cmdName = buttonElement.dataset.name;
+
+                if (window.Android) {
+                    window.Android.handleClick(cmdKey, cmdName, buttonElement.id);
+                } else {
+                    showStatus('네이티브 브릿지(Android)를 찾을 수 없습니다.', 'danger');
+                }
+            });
+        });
+
+        // 3. 부가 기능 탭 리스너
+        btnVentilation.addEventListener('click', () => {
+            if (window.Android) window.Android.handleVentilationToggle();
+        });
+
+
+        btnHeatEject.addEventListener('click', () => {
+            if (window.Android) window.Android.handleHeatEjectToggle();
+        });
+
+        // ‼️ (신규) 주차 위치 지도 업데이트 함수
+        // ‼️ (신규) 주차 위치 지도 업데이트 함수 (주소 표시로 변경)
+        function updateParkingMap(lat, lon, time, address) {
+            const timeEl = document.getElementById('saved-location-time');
+            const addrEl = document.getElementById('saved-location-text');
+
+            if (timeEl) timeEl.innerText = time;
+
+            if (addrEl) {
+                if (address && address.length > 0) {
+                    // 대한민국만 제거하고 전체 주소 표시 (디테일한 주소)
+                    let clean = address.replace("대한민국", "").trim();
+                    addrEl.innerText = clean;
+                } else {
+                    // 주소가 없으면 좌표 표시
+                    addrEl.innerText = `위도: ${lat.toFixed(4)}, 경도: ${lon.toFixed(4)}`;
+                }
+            }
+        }
+
+        // 4. API 저장 버튼 리스너
+        btnSaveApiUrl.addEventListener('click', () => {
+            const dirtyUrl = apiUrlInput.value;
+            if (!dirtyUrl) {
+                showStatus('저장할 URL을 입력하세요.', 'danger');
+                return;
+            }
+            if (window.Android) {
+                window.Android.saveApiUrl(dirtyUrl);
+            }
+        });
+
+        // 5. (수정) 설정 탭 버튼 리스너
+        btnGoToControlTab.addEventListener('click', () => {
+            switchTab('tab-control');
+        });
+
+        btnSecretSettings.addEventListener('click', () => {
+            switchTab('tab-settings'); // ‼️ 이제 '설정' 탭으로 감
+            if (window.Android) {
+                window.Android.loadInitialApiUrl();
+            }
+        });
+
+        // (블루투스 설정 버튼)
+        btnSetupBluetooth.addEventListener('click', () => {
+            if (window.Android) {
+                window.Android.showPairedDeviceList();
+            }
+        });
+
+        // 6. ‼️ 신규: 개발자 탭 버튼 리스너
+        btnGoToDeveloper.addEventListener('click', () => {
+            switchTab('tab-developer');
+            if (window.Android) {
+                window.Android.checkBluetoothStatusForDebug(); // 상태 즉시 반영
+                window.Android.refreshDeviceList(); // 목록 즉시 새로고침
+            }
+        });
+
+        btnGoToSettings.addEventListener('click', () => {
+            switchTab('tab-settings');
+        });
+
+        btnToggleBluetooth.addEventListener('click', () => {
+            if (window.Android) {
+                window.Android.toggleBluetoothTest();
+            }
+        });
+
+        btnRefreshDevices.addEventListener('click', () => {
+            if (window.Android) {
+                window.Android.refreshDeviceList();
+            }
+        });
+
+        // 7. ‼️ 신규: 지도 열기 버튼
+        btnLoadLocation.addEventListener('click', () => {
+            if (window.Android) {
+                window.Android.openSavedLocationMap();
+            }
+        });
+
+        // 8. 주행 이력 관련
+        const btnToggleHistory = document.getElementById('btnToggleHistory');
+        const historyContainer = document.getElementById('history-list-container');
+        const btnClearHistory = document.getElementById('btnClearHistory');
+        const btnBackFromHistory = document.getElementById('btnBackFromHistory');
+
+        const historyTotalDist = document.getElementById('history-total-dist');
+        const historyAvgDist = document.getElementById('history-avg-dist');
+        const historyTotalCount = document.getElementById('history-total-count');
+
+        btnToggleHistory.addEventListener('click', () => {
+            loadHistory();
+            switchTab('tab-history');
+        });
+
+        btnBackFromHistory.addEventListener('click', () => {
+            switchTab('tab-extras');
+        });
+
+        function loadHistory() {
+            if (!window.Android) return;
+            const historyJson = window.Android.getDrivingHistory();
+            const history = JSON.parse(historyJson).reverse(); // 최신순
+
+            // 1. Initialize Stats Variables
+            let totalDistKm = 0.0;
+            let totalTimeSec = 0;
+            let maxSpeedKmh = 0;
+            let maxDistKm = 0;
+            let maxDurationSec = 0;
+
+            let todayDistKm = 0.0;
+            let todayTimeSec = 0;
+            let todaySpeedSum = 0; // For avg calculation (weighted by distance usually better, but simple avg of segments ok for now)
+            let todayCount = 0;
+
+            const now = new Date();
+            const todayStr = now.toLocaleDateString('ko-KR', {
+                year: 'numeric', month: '2-digit', day: '2-digit'
+            }).replace(/\. /g, '-').replace('.', '');
+
+            const days = ["일", "월", "화", "수", "목", "금", "토"];
+            const dayOfWeek = days[now.getDay()];
+
+            // Update Today Header (New Design)
+            // Target: "12월 18일 (목)"
+            document.getElementById('today-date-display').innerText = `${now.getMonth() + 1}월 ${now.getDate()}일 (${dayOfWeek})`;
+
+            let html = '';
+
+            history.forEach(item => {
+                // ‼️ (신규) JSON 문자열로 저장된 route 파싱
+                if (typeof item.route === 'string') {
+                    try { item.route = JSON.parse(item.route); } catch (e) { }
+                } else if (!item.route) {
+                    item.route = [];
+                }
+
+                // --- Parsing Logic ---
+                // Distance
+                const distMatch = item.distance.match(/([\d.]+)\s*(\w+)/);
+                let distKm = 0;
+                if (distMatch) {
+                    let val = parseFloat(distMatch[1]);
+                    let unit = distMatch[2].toLowerCase();
+                    distKm = unit === 'm' ? val / 1000 : val;
+                }
+
+                // Time & Duration
+                let durationSec = 0;
+                try {
+                    const [dH, dM, dS] = item.duration.split(':').map(Number);
+                    durationSec = dH * 3600 + dM * 60 + dS;
+                } catch (e) { }
+
+                // Speeds
+                let avgSpd = parseFloat(item.avgSpeed.replace(' km/h', '')) || 0;
+                let topSpd = parseFloat(item.topSpeed.replace(' km/h', '')) || 0;
+
+                // End Time Calc
+                let endTimeStr = "??:??";
+                if (item.time && item.duration) {
+                    try {
+                        const [sH, sM] = item.time.split(':').map(Number);
+                        const [dH, dM, dS] = item.duration.split(':').map(Number); // Re-parse safely
+
+                        const startDate = new Date();
+                        startDate.setHours(sH, sM, 0);
+                        const endDate = new Date(startDate.getTime() + (dH * 3600 + dM * 60 + dS) * 1000);
+
+                        endTimeStr = `${String(endDate.getHours()).padStart(2, '0')}:${String(endDate.getMinutes()).padStart(2, '0')}`;
+                    } catch (e) { }
+                }
+
+                // --- Update Totals ---
+                totalDistKm += distKm;
+                totalTimeSec += durationSec;
+
+                if (topSpd > maxSpeedKmh) maxSpeedKmh = topSpd;
+                if (distKm > maxDistKm) maxDistKm = distKm;
+                if (durationSec > maxDurationSec) maxDurationSec = durationSec;
+
+                // --- Update Today ---
+                if (item.date && (item.date.includes(todayStr) || item.date === todayStr)) {
+                    todayDistKm += distKm;
+                    todayTimeSec += durationSec;
+                    todaySpeedSum += avgSpd; // Simple summation for now
+                    todayCount++;
+                }
+
+                // --- Render List Item (New Design) ---
+                // Date Formatting for list: 2025.12.18 (목)
+                let dateDisplay = item.date; // fallback
+                try {
+                    // item.date is YYYY-MM-DD
+                    const dateObj = new Date(item.date);
+                    const listDay = days[dateObj.getDay()];
+                    dateDisplay = `${item.date.replace(/-/g, '.')} (${listDay})`;
+                } catch (e) { }
+
+                // ‼️ (신규) 출발지 -> 도착지 표시 로직
+                let routeText = "";
+                let startAddr = item.startAddress || "알 수 없음"; // 기존 데이터 호환
+                let endAddr = item.endAddress || item.address || "알 수 없음";
+
+                // 주소 간소화 (예: "대한민국 서울특별시 강남구 역삼동..." -> "서울 강남구")
+                const simplifyAddr = (addr) => {
+                    // 1. 불필요한 국가명 제거
+                    let clean = addr.replace("대한민국", "").trim();
+
+                    // 2. 시/도 명칭 축약
+                    clean = clean.replace(/경기도|서울특별시|인천광역시|부산광역시|대전광역시|대구광역시|광주광역시|울산광역시/g, (match) => {
+                        if (match === "서울특별시") return "서울";
+                        if (match === "인천광역시") return "인천";
+                        if (match === "경기도") return "경기";
+                        if (match === "부산광역시") return "부산";
+                        if (match === "대전광역시") return "대전";
+                        if (match === "대구광역시") return "대구";
+                        if (match === "광주광역시") return "광주";
+                        if (match === "울산광역시") return "울산";
+                        return match;
+                    });
+
+                    // 3. '구' 단위까지만 자르기
+                    const parts = clean.split(' ');
+                    let result = [];
+                    for (let part of parts) {
+                        result.push(part);
+                        if (part.endsWith('구') || part.endsWith('군') || (part.endsWith('시') && result.length > 1)) {
+                            break;
+                        }
+                    }
+                    return result.join(' ');
+                };
+
+                routeText = `${simplifyAddr(startAddr)} <i class="fas fa-arrow-right" style="margin: 0 4px; font-size: 10px; color: #666;"></i> ${simplifyAddr(endAddr)}`;
+
+                html += `
+                     <div class="history-card">
+                         <div class="list-header-row" style="align-items: flex-start;">
+                             <div class="list-date-group">
+                                 <span class="list-date-main">${dateDisplay}</span>
+                             </div>
+                             
+                             <!-- 오른쪽 정렬 컨테이너 -->
+                             <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                                 <span class="list-time-range">${item.time} ~ ${endTimeStr}</span>
+                                 <!-- ‼️ (이동) 주행 경로 텍스트 표기 (우측 하단) -->
+                                 <div class="list-route-text" style="font-size: 12px; color: #aaa; margin-top: 4px;">
+                                     ${routeText}
+                                 </div>
+                             </div>
+                         </div>
+                         
+                         <div class="list-big-dist">${distKm.toFixed(2)}<span style="font-size:16px; color:#888; font-weight:400;">km</span></div>
+
+
+                         <div class="list-stats-box">
+                              <div class="grid-item" style="align-items:center;">
+                                  <span class="grid-label">시간</span>
+                                  <span class="grid-value">${item.duration}</span>
+                              </div>
+                              <div class="grid-item" style="align-items:center;">
+                                  <span class="grid-label">평균</span>
+                                  <span class="grid-value">${parseInt(avgSpd)} km/h</span>
+                              </div>
+                              <div class="grid-item" style="align-items:center;">
+                                  <span class="grid-label">최고</span>
+                                  <span class="grid-value">${parseInt(topSpd)} km/h</span>
+                              </div>
+                         </div>
+                     </div>
+                 `;
+            });
+
+            historyContainer.innerHTML = html;
+
+            // --- Render Totals ---
+            document.getElementById('total-dist-val').innerText = totalDistKm.toFixed(1);
+            document.getElementById('total-top-speed').innerText = `${parseInt(maxSpeedKmh)} km / h`;
+            document.getElementById('total-max-dist').innerText = `${maxDistKm.toFixed(1)} km`;
+
+            // Total Time Formatting HH:MM:SS
+            const totalH = Math.floor(totalTimeSec / 3600);
+            const totalM = Math.floor((totalTimeSec % 3600) / 60);
+            const totalS = totalTimeSec % 60;
+            document.getElementById('total-time').innerText =
+                `${String(totalH).padStart(2, '0')}:${String(totalM).padStart(2, '0')}:${String(totalS).padStart(2, '0')} `;
+
+            // Max Duration Formatting HH:MM:SS
+            const maxDurH = Math.floor(maxDurationSec / 3600);
+            const maxDurM = Math.floor((maxDurationSec % 3600) / 60);
+            const maxDurS = maxDurationSec % 60;
+            document.getElementById('total-max-time').innerText =
+                `${String(maxDurH).padStart(2, '0')}:${String(maxDurM).padStart(2, '0')}:${String(maxDurS).padStart(2, '0')} `;
+
+            // --- Render Today ---
+            document.getElementById('today-dist').innerText = todayDistKm.toFixed(1);
+
+            // Today Time Formatting HH:MM:SS
+            const todayH = Math.floor(todayTimeSec / 3600);
+            const todayM = Math.floor((todayTimeSec % 3600) / 60);
+            const todayS = todayTimeSec % 60;
+            document.getElementById('today-time').innerText =
+                `${String(todayH).padStart(2, '0')}:${String(todayM).padStart(2, '0')}:${String(todayS).padStart(2, '0')} `;
+
+            const todayAvg = todayCount > 0 ? (todaySpeedSum / todayCount) : 0;
+            document.getElementById('today-avg').innerText = `${parseInt(todayAvg)} km / h`;
+        }
+
+        btnClearHistory.addEventListener('click', () => {
+            if (confirm('모든 주행 이력을 삭제하시겠습니까?')) {
+                if (window.Android) {
+                    window.Android.clearDrivingHistory();
+                    loadHistory();
+                }
+            }
+        });
+
+        // ======================================
+        // ‼️ (신규) 지도 모달 로직
+        // ======================================
+
+
+
+
+        // === 9. 탭 스위칭 로직 (애니메이션 적용) ===
+        const navItems = document.querySelectorAll('.nav-item');
+
+        function switchTab(targetTabId) {
+            // ‼️ Focus Persistence 방지: 탭 전환 시 포커스 해제
+            if (document.activeElement) {
+                document.activeElement.blur();
+            }
+
+            const currentTab = document.querySelector('.tab-panel.active');
+            const targetTab = document.getElementById(targetTabId);
+
+            // 이미 활성화된 탭이면 무시 (초기 로드 제외)
+            if (currentTab === targetTab && currentTab !== null) return;
+
+            // 1. 네비게이션 아이콘 업데이트
+            navItems.forEach(item => {
+                if (item.dataset.target === targetTabId) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            // 2. 패널 전환 (애니메이션 없음)
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            if (targetTab) {
+                targetTab.classList.add('active');
+
+                // ‼️ Ghost Click 방지: 전환 직후 잠시 클릭 차단
+                targetTab.style.pointerEvents = 'none';
+                setTimeout(() => {
+                    targetTab.style.pointerEvents = '';
+                }, 300);
+            }
+
+        }
+
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+
+                const targetTabId = e.currentTarget.dataset.target;
+                //(active 체크는 제거하여 리플 효과 항상 발생하도록 함)
+
+                switchTab(targetTabId);
+
+                // === ‼️‼️‼️ 탭 클릭 시 로직 수정 ‼️‼️‼️ ===
+                // 부가 기능 탭을 누를 때마다, 저장된 위치를 갱신
+                if (targetTabId === 'tab-extras') {
+                    if (window.Android) {
+                        window.Android.loadSavedLocation();
+                    }
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>
