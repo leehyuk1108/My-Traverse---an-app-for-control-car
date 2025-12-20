@@ -54,13 +54,13 @@
         <!-- 타이머용 포어그라운드 서비스 -->
         <service
             android:name=".TimerService"
-            android:exported="false"
+            android:exported="true"
             android:foregroundServiceType="dataSync" />
 
         <!-- ✅ 주행 기록용 포어그라운드 서비스 (새로 추가된 부분) -->
         <service
             android:name=".DrivingService"
-            android:exported="false"
+            android:exported="true"
             android:foregroundServiceType="location" />
 
         <!-- 부팅 후 알람 재등록용 리시버 -->

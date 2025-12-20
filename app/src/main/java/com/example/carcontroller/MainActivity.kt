@@ -182,6 +182,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
                     isEngineOn = isRunning
                     currentEngineTimerString = if (isRunning) timeString else ""
                     if (isRunning) {
+                        runJs("updateEngineUI(true)") // ‼️ (Fix) Restore UI state
                         runJs("updateEngineTimer('$timeString')")
                     } else {
                         runJs("updateEngineUI(false)")
@@ -195,7 +196,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
                 "HEAT_EJECT" -> {
                     isHeatEjecting = isRunning
                     currentHeatEjectTimerString = if (isRunning) timeString else ""
-                    runJs("updateHeatEJECTUI($isRunning, '$timeString')")
+                    runJs("updateHeatEjectUI($isRunning, '$timeString')")
                 }
             }
 
@@ -209,6 +210,16 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
             currentDrivingTime = intent?.getStringExtra(DrivingService.EXTRA_DRIVING_TIME) ?: "00:00:00"
             currentDrivingDistance = intent?.getStringExtra(DrivingService.EXTRA_DRIVING_DISTANCE) ?: "0.0 km"
 
+            updateDashboardStatus()
+        }
+    }
+
+    // ‼️ (New) Receiver for Save Completion
+    private val drivingSavedReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            Log.d("MainActivity", "Received ACTION_DRIVING_SAVED")
+            loadAndShowLocationData()
+            showJsStatus("주행 기록이 저장되었습니다.", "success")
             updateDashboardStatus()
         }
     }
@@ -275,6 +286,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
         LocalBroadcastManager.getInstance(this).registerReceiver(
             drivingUpdateReceiver, IntentFilter(DrivingService.BROADCAST_DRIVING_UPDATE)
         )
+        // ‼️ (New) Reigster Saved Receiver
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            drivingSavedReceiver, IntentFilter(DrivingService.ACTION_DRIVING_SAVED)
+        )
 
         // Bluetooth 브로드캐스트 리시버 등록
         val filter = IntentFilter().apply {
@@ -312,6 +327,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
     override fun onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(timerUpdateReceiver)
         LocalBroadcastManager.getInstance(this).unregisterReceiver(drivingUpdateReceiver)
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(drivingSavedReceiver)
 
         unregisterReceiver(mainActivityBluetoothReceiver)
 
@@ -698,15 +714,16 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
     }
 
     // ‼️ (신규) 중지 -> 딜레이 -> UI 갱신을 위한 헬퍼
-    private suspend fun stopDrivingServiceAndSaveLocation() {
+    private fun stopDrivingServiceAndSaveLocation() {
         stopDrivingService() // 1. 중지 명령 (DrivingService가 비동기로 저장 시작)
 
-        // 2. ‼️ DrivingService가 SharedPreferences에 저장할 시간을 줌 (0.5초)
-        delay(500)
+        showJsStatus("주행 기록 저장 중...", "warning")
 
-        // 3. ‼️ DrivingService가 저장한 데이터를 읽어서 UI에 표시
-        loadAndShowLocationData()
-        showJsStatus("블루투스 연결 해제: 주행 기록 저장됨.", "success")
+        // 3. ‼️ Fallback: If broadcast doesn't arrive in 3s, reload anyway
+        launch {
+             delay(3000)
+             loadAndShowLocationData()
+        }
     }
 
     // ‼️ (삭제) saveLastKnownLocation() 함수

@@ -37,6 +37,9 @@ class DrivingService : Service(), CoroutineScope by CoroutineScope(Dispatchers.I
         const val ACTION_STOP_DRIVING = "ACTION_STOP_DRIVING"
 
         const val BROADCAST_DRIVING_UPDATE = "BROADCAST_DRIVING_UPDATE"
+        // ‼️ (New) Broadcast when saving is complete
+        const val ACTION_DRIVING_SAVED = "ACTION_DRIVING_SAVED"
+
         const val EXTRA_DRIVING_TIME = "EXTRA_DRIVING_TIME"
         const val EXTRA_DRIVING_DISTANCE = "EXTRA_DRIVING_DISTANCE"
 
@@ -135,10 +138,12 @@ class DrivingService : Service(), CoroutineScope by CoroutineScope(Dispatchers.I
         // ‼️ (신규) 기존 상태 복원 시도
         if (tryRestoreState()) {
              Log.d("DrivingService", "기존 주행 상태 복원됨 ($totalDistanceMeters m, $startTimeMillis)")
+             // ‼️ (중요) 복원 성공 시에는 값을 초기화하지 않고 그대로 유지함!
+        } else {
+             Log.d("DrivingService", "새로운 주행 시작")
              startTimeMillis = System.currentTimeMillis()
              totalDistanceMeters = 0.0
              topSpeedMs = 0f
-
              startAddress = "" // ‼️ 초기화
 
              // ‼️ (신규) 출발지 주소 가져오기 (비동기)
@@ -161,9 +166,9 @@ class DrivingService : Service(), CoroutineScope by CoroutineScope(Dispatchers.I
                      }
                  }
              }
-
-             lastLocation = null
         }
+
+        lastLocation = null
 
         startForeground(NOTIFICATION_ID, createNotification("차량과 블루투스로 연결됨", ""))
 
@@ -268,10 +273,8 @@ class DrivingService : Service(), CoroutineScope by CoroutineScope(Dispatchers.I
 
         val elapsedSeconds = (System.currentTimeMillis() - sessionStartTime) / 1000
 
-        if (elapsedSeconds < 1) {
-            Log.d("DrivingService", "주행 시간이 너무 짧아 저장하지 않음")
-            return
-        }
+        // ‼️ (Modified) Removed minimum 1-second check for easier testing
+        // if (elapsedSeconds < 1) { ... }
 
         // --- 1. 주행 기록 계산 ---
         val finalTimeString = formatTime(elapsedSeconds)
@@ -353,6 +356,10 @@ class DrivingService : Service(), CoroutineScope by CoroutineScope(Dispatchers.I
         )
 
         Log.d("DrivingService", "주행 기록 및 위치 저장 완료")
+
+        // ‼️ (New) Send broadcast to notify UI
+        val savedIntent = Intent(ACTION_DRIVING_SAVED)
+        LocalBroadcastManager.getInstance(this).sendBroadcast(savedIntent)
     }
 
     private fun saveToHistoryFile(date: String, time: String, duration: String, distance: String, avgSpeed: String, topSpeed: String, startAddress: String, endAddress: String) {
