@@ -2250,7 +2250,8 @@
                     let result = [];
                     for (let part of parts) {
                         result.push(part);
-                        if (part.endsWith('구') || part.endsWith('군') || (part.endsWith('시') && result.length > 1)) {
+                        // ver 1.2: 구/군 뿐만 아니라 동/읍/면에서도 자르기 (상세 주소 제거)
+                        if (part.endsWith('구') || part.endsWith('군') || part.endsWith('동') || part.endsWith('읍') || part.endsWith('면')) {
                             break;
                         }
                     }

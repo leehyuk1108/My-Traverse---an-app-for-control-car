@@ -406,26 +406,44 @@ class DrivingService : Service(), CoroutineScope by CoroutineScope(Dispatchers.I
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult.lastLocation?.let { newLocation ->
-                    var currentSpeed = 0f
+                    // 1. Accuracy Filter (Strict): Low accuracy (e.g. > 50m) implies poor signal (tunnels, indoors)
+                    if (newLocation.accuracy > 50.0) {
+                        Log.d("DrivingService", "Ignored location due to poor accuracy: ${newLocation.accuracy}")
+                        return@let
+                    }
 
+                    var currentSpeed = 0f
                     if (newLocation.hasSpeed()) {
                         currentSpeed = newLocation.speed
                     }
 
+                    // 2. Speed Cap Filter: Ignore unrealistic speeds (> 200 km/h ≈ 55.5 m/s)
+                    if (currentSpeed > 55.5f) {
+                        Log.d("DrivingService", "Ignored unrealistic speed: $currentSpeed m/s")
+                        return@let
+                    }
+
                     if (lastLocation != null) {
-                        // Fallback calculation if speed is missing
-                        if (currentSpeed == 0f) {
-                            val timeDelta = (newLocation.time - lastLocation!!.time) / 1000.0 // seconds
-                            if (timeDelta > 0) {
-                                val dist = newLocation.distanceTo(lastLocation!!)
-                                currentSpeed = (dist / timeDelta).toFloat()
-                            }
+                        val timeDelta = (newLocation.time - lastLocation!!.time) / 1000.0 // seconds
+                        val dist = newLocation.distanceTo(lastLocation!!)
+
+                        // 3. Teleport Filter: Check calculated speed from distance/time
+                        if (timeDelta > 0) {
+                             val calculatedSpeed = dist / timeDelta
+                             if (calculatedSpeed > 55.5) { // > 200 km/h
+                                 Log.w("DrivingService", "Ignored GPS jump (teleport): speed $calculatedSpeed m/s")
+                                 return@let
+                             }
+                             
+                             // Fallback only if device has no speed
+                             if (currentSpeed == 0f) {
+                                 currentSpeed = calculatedSpeed.toFloat()
+                             }
                         }
 
-                        // Accuracy check
-                        if (newLocation.accuracy < 200.0) {
-                            val distance = newLocation.distanceTo(lastLocation!!)
-                            totalDistanceMeters += distance
+                        // 4. Noise Filter: Ignore tiny movements (< 2m) to prevent drift when stopped
+                        if (dist > 2.0) {
+                            totalDistanceMeters += dist
                         }
                     }
 
