@@ -19,3 +19,6 @@ full_debug.log
 minimal_scrape.log
 full_log.txt
 *.log
+
+# Firebase Secrets
+google-services.json

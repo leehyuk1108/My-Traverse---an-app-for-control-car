@@ -223,6 +223,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
     private var lastFuel: String? = null
     private var lastMileage: String? = null
     private var lastOil: String? = null
+    private var lastTireList: String? = null
+    private var lastRange: String? = null
+    private var lastBattery: String? = null
+    private var lastBatteryLevel: String? = null
+    private var lastTire: String? = null
+    private var lastTime: String? = null
     private var lastRefreshStatus: String = "" // [NEW] Cache for status
 
     // ‼️ (New) Receiver for Save Completion
@@ -257,10 +263,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
         override fun onDataChange(snapshot: com.google.firebase.database.DataSnapshot) {
             val fuel = snapshot.child("fuel").getValue(String::class.java) ?: "--"
             val mileage = snapshot.child("mileage").getValue(String::class.java) ?: "--"
-            // val oil = snapshot.child("oil").getValue(String::class.java) ?: "--" // Deprecated for UI
+            val oil = snapshot.child("oil").getValue(String::class.java) ?: "--" 
             val range = snapshot.child("range").getValue(String::class.java) ?: "--"
             val battery = snapshot.child("battery").getValue(String::class.java) ?: "--"
             val batteryLevel = snapshot.child("battery_level").getValue(String::class.java) ?: "--"
+            val tirePressure = snapshot.child("tire_pressure").getValue(String::class.java) ?: "--"
+            val tirePressureAll = snapshot.child("tire_pressure_all").getValue(String::class.java) ?: "--" // [NEW] Read list
             val lastUpdateStr = snapshot.child("last_update").getValue(String::class.java)
             val refreshStatus = snapshot.child("refresh_status").getValue(String::class.java) ?: ""
             
@@ -277,15 +285,24 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
             // Cache data
             lastFuel = fuel
             lastMileage = mileage
-            // lastOil = oil
+            lastOil = oil
+            lastTireList = tirePressureAll
+            lastRange = range
+            lastBattery = battery
+            lastBatteryLevel = batteryLevel
+            lastTire = tirePressure
+            lastTime = lastUpdateStr
             
             // Send to WebView if loaded
             if (isPageLoaded) {
-                 // updateCarStatus(range, battery, batteryLevel, mileage, fuel, lastUpdate)
+                 // updateCarStatus(range, battery, batteryLevel, mileage, fuel, lastUpdate, oil, tire, tireList)
                  // Mapping: Range -> Slot 1, Battery -> Slot 2, Mileage -> Slot 3, Fuel -> Slot 4, Time -> Slot 5
                  val safeFuel = fuel ?: "--"
                  val safeTime = lastUpdateStr ?: ""
-                 runJs("updateCarStatus('$range', '$battery', '$batteryLevel', '$mileage', '$safeFuel', '$safeTime')")
+                 val safeOil = oil ?: "--"
+                 val safeTire = tirePressure ?: "--"
+                 val safeTireList = tirePressureAll ?: "" // Pass comma string
+                 runJs("updateCarStatus('$range', '$battery', '$batteryLevel', '$mileage', '$safeFuel', '$safeTime', '$safeOil', '$safeTire', '$safeTireList')")
             }
         }
 
@@ -325,6 +342,21 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
                 isPageLoaded = true
                 loadAndShowLocationData() // ‼️ (수정) 함수 이름 변경
                 updateDashboardStatus()
+                
+                // [NEW] Send cached car status on reload
+                if (lastFuel != null || lastMileage != null) {
+                    val safeFuel = lastFuel ?: "--"
+                    val safeMileage = lastMileage ?: "--"
+                    val safeOil = lastOil ?: "--"
+                    val safeRange = lastRange ?: "--"
+                    val safeBat = lastBattery ?: "--"
+                    val safeBatLevel = lastBatteryLevel ?: "--"
+                    val safeTire = lastTire ?: "--"
+                    val safeTireList = lastTireList ?: ""
+                    val safeTime = lastTime ?: ""
+                    
+                    runJs("updateCarStatus('$safeRange', '$safeBat', '$safeBatLevel', '$safeMileage', '$safeFuel', '$safeTime', '$safeOil', '$safeTire', '$safeTireList')")
+                }
 
                 isSetupComplete()
             }

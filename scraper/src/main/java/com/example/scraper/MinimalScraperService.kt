@@ -31,6 +31,10 @@ class MinimalScraperService : AccessibilityService() {
     private var lastBattery = ""
     private var lastTime = ""
     private var lastTire = ""
+    
+    // [NEW] Tire Pressure Accumulation
+    private val tirePressures = mutableListOf<String>()
+    private val visitedTireBounds = mutableSetOf<android.graphics.Rect>()
 
     // Scroll State Management
     // [MODIFIED] Reordered states: Down first, then Up.
@@ -337,6 +341,8 @@ class MinimalScraperService : AccessibilityService() {
         scrollState = ScrollState.IDLE
         
         foundKeys.clear()
+        tirePressures.clear() // [NEW] Reset tire list on refresh
+        visitedTireBounds.clear() // [NEW] Reset bounds tracker
         sweepCycleCount = 0
         Log.i(TAG, "State Reset to IDLE -> Ready for new sweep after refresh")
         
@@ -497,8 +503,22 @@ class MinimalScraperService : AccessibilityService() {
         
         if (text.endsWith("psi") || text.endsWith("kpa") || text.endsWith("kPa")) {
             tireRegex.find(text)?.let {
-                Log.i(TAG, "DETECTED_TIRE: $text")
-                sendData("tire_pressure", text)
+                val rect = android.graphics.Rect()
+                node?.getBoundsInScreen(rect)
+                
+                // Track Unique Tire Nodes by Bounds (allow same value if different location)
+                if (!visitedTireBounds.contains(rect)) {
+                    visitedTireBounds.add(rect)
+                    tirePressures.add(text)
+                    Log.i(TAG, "Added Tire ($text) @ $rect. Total: ${tirePressures.size}")
+                    
+                    // Send accumulated list
+                    // Order isn't guaranteed perfectly, but distinct nodes will be collected
+                    val allTires = tirePressures.joinToString(",")
+                    sendData("tire_pressure_all", allTires)
+                } else {
+                    Log.d(TAG, "Duplicate Tire Node Ignored @ $rect")
+                }
             }
         }
     }

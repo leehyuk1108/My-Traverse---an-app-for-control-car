@@ -133,6 +133,187 @@
         }
 
 
+        /* Info Tab Grid (New) */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 15px;
+        }
+
+        .info-card {
+            background: rgba(30, 30, 30, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle Redline Gradient Top Border */
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--highlight-color), transparent);
+            opacity: 0.7;
+        }
+
+        .info-card.full-width {
+            grid-column: span 2;
+        }
+
+        .card-header-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+
+        .card-icon {
+            font-size: 16px;
+            color: var(--highlight-color);
+            background: rgba(255, 50, 50, 0.1);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-title {
+            font-size: 13px;
+            color: #aaa;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .big-value-container {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .big-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .big-value.small-font {
+            font-size: 20px;
+        }
+
+        .sub-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            font-size: 12px;
+            color: #777;
+            padding-top: 8px;
+        }
+
+        .accent-text {
+            color: #ddd;
+            font-weight: 600;
+        }
+
+        /* Progress Bars */
+        .progress-track {
+            background: #333;
+            height: 6px;
+            border-radius: 3px;
+            width: 100%;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #ff4d4d, #ff0000);
+            height: 100%;
+            border-radius: 3px;
+            transition: width 1s ease-out;
+        }
+
+        /* Tire Section */
+        .tire-section {
+            background: rgba(0, 0, 0, 0.3);
+            /* Darker for contrast */
+        }
+
+        .tire-visual-container {
+            position: relative;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 5px;
+        }
+
+        .car-outline {
+            font-size: 60px;
+            color: #333;
+            opacity: 0.5;
+        }
+
+        .tire-box {
+            position: absolute;
+            background: rgba(40, 40, 40, 0.9);
+            border: 1px solid #444;
+            padding: 4px 8px;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 50px;
+        }
+
+        /* Positioning Tires */
+        .tire-fl {
+            top: 10px;
+            left: 10px;
+        }
+
+        .tire-fr {
+            top: 10px;
+            right: 10px;
+        }
+
+        .tire-rl {
+            bottom: 10px;
+            left: 10px;
+        }
+
+        .tire-rr {
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .tire-label {
+            display: block;
+            font-size: 10px;
+            color: #777;
+            margin-bottom: 2px;
+        }
+
+        .tire-value {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* -------------------------- */
         /* --- 탭 하이라이트 제거 --- */
         * {
             -webkit-tap-highlight-color: transparent;
@@ -1503,6 +1684,114 @@
                 </div>
             </div>
 
+            <!-- ‼️ [NEW] Info Tab (Design v1.3: Redline Premium) -->
+            <div id="tab-info" class="tab-panel">
+                <div class="dashboard-header">
+                    <span class="dashboard-title">VEHICLE HEALTH</span>
+                    <span class="dashboard-plate">DETAILED DIAGNOSTICS</span>
+                </div>
+
+                <div class="info-grid">
+
+                    <!-- Tier 1: Tire Pressure (Car Visualization) -->
+                    <div class="info-card full-width tire-section">
+                        <div class="card-header-row">
+                            <div class="card-icon"><i class="fas fa-bullseye"></i></div>
+                            <div class="card-title">Tire Pressure</div>
+                        </div>
+
+                        <div class="tire-visual-container">
+                            <!-- Center Car Outline -->
+                            <div class="car-outline">
+                                <i class="fas fa-car-side"></i> <!-- Simple icon for center -->
+                            </div>
+
+                            <!-- 4 Tires (Absolute Positioning Relative to Container) -->
+                            <div class="tire-box tire-fl">
+                                <span class="tire-label">FL</span>
+                                <span id="tire-fl-val" class="tire-value">--</span>
+                            </div>
+                            <div class="tire-box tire-fr">
+                                <span class="tire-label">FR</span>
+                                <span id="tire-fr-val" class="tire-value">--</span>
+                            </div>
+                            <div class="tire-box tire-rl">
+                                <span class="tire-label">RL</span>
+                                <span id="tire-rl-val" class="tire-value">--</span>
+                            </div>
+                            <div class="tire-box tire-rr">
+                                <span class="tire-label">RR</span>
+                                <span id="tire-rr-val" class="tire-value">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tier 2: Fuel & Range -->
+                    <div class="info-card">
+                        <div class="card-header-row">
+                            <div class="card-icon"><i class="fas fa-gas-pump"></i></div>
+                            <div class="card-title">Fuel Level</div>
+                        </div>
+                        <div class="big-value-container">
+                            <span id="info-fuel" class="big-value">-- L</span>
+                        </div>
+                        <!-- Progress Bar -->
+                        <div class="progress-track">
+                            <div id="prog-fuel" class="progress-fill" style="width: 0%;"></div>
+                        </div>
+                        <div class="sub-row">
+                            <span>Range</span>
+                            <span id="info-range" class="accent-text">-- km</span>
+                        </div>
+                    </div>
+
+                    <!-- Tier 3: Oil Life -->
+                    <div class="info-card">
+                        <div class="card-header-row">
+                            <div class="card-icon"><i class="fas fa-oil-can"></i></div>
+                            <div class="card-title">Oil Life</div>
+                        </div>
+                        <div class="big-value-container">
+                            <span id="info-oil" class="big-value">--%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div id="prog-oil" class="progress-fill" style="width: 0%;"></div>
+                        </div>
+                        <div class="sub-row">
+                            <span>Status</span>
+                            <span id="info-oil-status" class="accent-text">Good</span>
+                        </div>
+                    </div>
+
+                    <!-- Tier 4: Battery -->
+                    <div class="info-card">
+                        <div class="card-header-row">
+                            <div class="card-icon"><i class="fas fa-car-battery"></i></div>
+                            <div class="card-title">Battery</div>
+                        </div>
+                        <div class="big-value-container">
+                            <span id="info-volts" class="big-value">-- V</span>
+                        </div>
+                        <div class="sub-row">
+                            <span>Level</span>
+                            <span id="info-bat-level" class="accent-text">--%</span>
+                        </div>
+                    </div>
+
+                    <!-- Tier 5: Mileage -->
+                    <div class="info-card">
+                        <div class="card-header-row">
+                            <div class="card-icon"><i class="fas fa-road"></i></div>
+                            <div class="card-title">Odometer</div>
+                        </div>
+                        <div class="big-value-container">
+                            <span id="info-mileage" class="big-value small-font">-- km</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
             <div class="tab-panel" id="tab-extras">
                 <div class="extras-section">
 
@@ -1797,9 +2086,17 @@
             <i class="fas fa-car"></i>
             <span>제어</span>
         </div>
+        <div class="nav-item" data-target="tab-info">
+            <i class="fas fa-info-circle"></i>
+            <span>정보</span>
+        </div>
         <div class="nav-item" data-target="tab-extras">
             <i class="fas fa-ellipsis-h"></i>
             <span>부가 기능</span>
+        </div>
+        <div class="nav-item" data-target="tab-settings">
+            <i class="fas fa-cog"></i>
+            <span>설정</span>
         </div>
     </div>
 
@@ -2169,12 +2466,18 @@
         });
 
         // ‼️ (신규) 주차 위치 지도 업데이트 함수
-        // ‼️ (New) Update Vehicle Status from Firebase (Range, Battery, Mileage, Fuel, LastUpdate)
-        function updateCarStatus(range, battery, batteryLevel, mileage, fuel, lastUpdate) {
+        // ‼️ (New) Update Vehicle Status from Firebase (Range, Battery, Mileage, Fuel, LastUpdate, Oil, Tire)
+        function updateCarStatus(range, battery, batteryLevel, mileage, fuel, lastUpdate, oil, tirePressure, tireListString) {
             // 1. Range & Fuel Logic (Format: "98% (566km)")
             let fuelPercent = '';
             let rangeText = '';
 
+            // Handle Fuel (Liter or %)
+            if (fuel && fuel !== '--') {
+                // Try to guess percent if not explicit?
+                // Usually fuel is liters. e.g. "45L".
+                // Let's just show raw for now in Info tab.
+            }
             // A. Calculate/Extract Fuel %
             if (fuel && fuel !== '--') {
                 if (fuel.includes('%')) {
@@ -2252,6 +2555,112 @@
                 // Removed forced display: inline-flex. Controlled by button.
             } else {
                 updateEl.innerHTML = '데이터 없음';
+            }
+
+            // 5. [NEW] Update Info Tab Elements (v1.3 Redline Design)
+
+            // --- Oil ---
+            if (document.getElementById('info-oil')) {
+                const oilVal = (oil && oil !== '--') ? oil : '--';
+                document.getElementById('info-oil').textContent = (oilVal !== '--') ? oilVal + "%" : "--%";
+                // Progress Bar
+                const progOil = document.getElementById('prog-oil');
+                if (progOil) {
+                    const oilNum = parseInt(oilVal);
+                    if (!isNaN(oilNum)) {
+                        progOil.style.width = oilNum + "%";
+                        // Color: < 20% ? Red, else Gradient
+                        if (oilNum < 20) progOil.style.background = '#ff0000';
+                    } else {
+                        progOil.style.width = "0%";
+                    }
+                }
+            }
+
+            // --- Tire Pressure (4-Way Logic) ---
+            if (document.getElementById('tire-fl-val')) {
+                let tires = [];
+
+                // Sanitize input: If tireListString looks like "244kpa236kpa", it's broken.
+                // But usually it should be "244kpa,236kpa".
+
+                if (tireListString && tireListString !== '--' && tireListString.length > 0) {
+                    tires = tireListString.split(',');
+                }
+
+                // Fallback: Use single 'tirePressure' if list empty
+                if (tires.length === 0 && tirePressure && tirePressure !== '--') {
+                    const val = tirePressure.replace(/[^0-9]/g, '');
+                    // If val is suspiciously long (e.g. > 3 digits), do NOT replicate it to all tires.
+                    if (val.length > 3) {
+                        // This looks like the "244236244240" bug. 
+                        // Attempt to split it by 3s? (Traverse PSI is ~35 -> 2 digits, KPA ~240 -> 3 digits)
+                        // Safe assumption: If length % 3 == 0, split by 3.
+                        if (val.length === 12) { // 4 tires * 3 digits
+                            tires = [val.substring(0, 3), val.substring(3, 6), val.substring(6, 9), val.substring(9, 12)];
+                        } else if (val.length === 8) { // 4 tires * 2 digits (PSI)
+                            tires = [val.substring(0, 2), val.substring(2, 4), val.substring(4, 6), val.substring(6, 8)];
+                        } else {
+                            tires = ['Err', 'Err', 'Err', 'Err'];
+                        }
+                    } else {
+                        // Normal single value (e.g. "240") -> Replicate
+                        tires = [val, val, val, val];
+                    }
+                }
+
+                // Populate slots
+                const slots = ['fl', 'fr', 'rl', 'rr'];
+
+                for (let i = 0; i < 4; i++) {
+                    const el = document.getElementById(`tire-${slots[i]}-val`);
+                    if (el) {
+                        if (tires[i]) {
+                            // Clean: Remove non-digits for cleaner look
+                            let cleanVal = tires[i].replace(/[^0-9]/g, '');
+                            el.textContent = cleanVal;
+                            el.style.color = '#fff';
+                        } else {
+                            el.textContent = '--';
+                            el.style.color = '#555';
+                        }
+                    }
+                }
+            }
+
+            // --- Battery ---
+            if (document.getElementById('info-volts')) {
+                document.getElementById('info-volts').textContent = (battery && battery !== '--') ? battery + "V" : "--V";
+            }
+            if (document.getElementById('info-bat-level')) {
+                document.getElementById('info-bat-level').textContent = (batteryLevel && batteryLevel !== '--') ? batteryLevel + "%" : "--%";
+            }
+
+            // --- Fuel ---
+            if (document.getElementById('info-fuel')) {
+                const fuelVal = fuel || "--";
+                document.getElementById('info-fuel').textContent = (fuelVal !== '--') ? fuelVal + "L" : "--L";
+
+                // Progress Bar (Estimate: Max 60L?)
+                const progFuel = document.getElementById('prog-fuel');
+                if (progFuel) {
+                    const fuelNum = parseInt(fuelVal.replace('L', ''));
+                    if (!isNaN(fuelNum)) {
+                        // Assume max 60L for Traverse? Approx.
+                        const percent = Math.min((fuelNum / 82) * 100, 100); // Traverse ~82L tank
+                        progFuel.style.width = percent + "%";
+                    } else {
+                        progFuel.style.width = "0%";
+                    }
+                }
+            }
+            if (document.getElementById('info-range')) {
+                document.getElementById('info-range').textContent = (range && range !== '--') ? range + "km" : "--km";
+            }
+
+            // --- Mileage ---
+            if (document.getElementById('info-mileage')) {
+                document.getElementById('info-mileage').textContent = mileage ? mileage + "km" : "--km";
             }
         }
 
