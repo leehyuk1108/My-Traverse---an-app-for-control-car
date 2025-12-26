@@ -1,0 +1,456 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:2:1-43:12
+INJECTED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:2:1-43:12
+INJECTED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:2:1-43:12
+INJECTED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:2:1-43:12
+MERGED from [com.google.android.material:material:1.11.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/e557fce72b76ff25dbdc825d17f09b50/transformed/material-1.11.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f43362dd931736e28bf1b6d232a6cd9f/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/aef3aa806bcfd6f72485709caf75593d/transformed/constraintlayout-2.0.1/AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.appcompat:appcompat:1.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/91c174e6d019d8a3df33689611c50b6e/transformed/appcompat-1.6.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/bb276939388dfc7cda606138b7dfde43/transformed/emoji2-views-helper-1.2.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.emoji2:emoji2:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/aa1cc0e0076bb8a6dd38ee8cfb3800bc/transformed/emoji2-1.2.0/AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/4fceabb0aacf3f0ae25cae13813bf2e3/transformed/viewpager2-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.firebase:firebase-database-ktx:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/1f5668e3d25d6ea0b78ddc5982aeec47/transformed/firebase-database-ktx-20.3.0/AndroidManifest.xml:2:1-18:12
+MERGED from [com.google.firebase:firebase-database:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/57348445f8ea489d98a7bd7a8a384b58/transformed/firebase-database-20.3.0/AndroidManifest.xml:15:1-38:12
+MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/892da861bbea6ff06496e3e1c388c634/transformed/firebase-common-ktx-20.4.2/AndroidManifest.xml:2:1-18:12
+MERGED from [com.google.firebase:firebase-common:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/ff667fc177e2e4fb72dff5ff15cf98e2/transformed/firebase-common-20.4.2/AndroidManifest.xml:15:1-41:12
+MERGED from [androidx.activity:activity:1.8.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/5449c0fbfa1eec2dc42352707961aad7/transformed/activity-1.8.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/844f27003b6c9486f7f8de90781daa79/transformed/dynamicanimation-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/11109fdd8804e220bd284875751a7981/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f9b4e22f6b530998d121ada6349aafb4/transformed/loader-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.savedstate:savedstate:1.2.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/a405bf5a8e6cd192b7f8c9574e366067/transformed/savedstate-1.2.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f75b9d715e08d384af45bd9092fac1ba/transformed/lifecycle-process-2.6.1/AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/bec4b855d1eb7489e492654558f77088/transformed/lifecycle-livedata-core-2.6.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b807bbd76fdfcc8cb010c5dcf8ca5afc/transformed/lifecycle-livedata-2.6.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/c8835c1d81702d792c0c6bfda0805863/transformed/lifecycle-viewmodel-2.6.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/8e89cefd0d5a4dbb8cf59c03bd013266/transformed/lifecycle-runtime-2.6.1/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/1e0eb81021537c8b8370e8a5e2b1543d/transformed/lifecycle-viewmodel-savedstate-2.6.1/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/434a300669c5d470590f4a22f26353bd/transformed/firebase-appcheck-interop-17.1.0/AndroidManifest.xml:15:1-23:12
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/beb2c3de43cc37c20a9452fc239169c6/transformed/firebase-auth-interop-20.0.0/AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.firebase:firebase-database-collection:18.0.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/415a79bcb5667a54fffe343fd43bf39a/transformed/firebase-database-collection-18.0.1/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-base:18.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/4e83b52bf2e87b743e3d7ee01d2602d3/transformed/play-services-base-18.1.0/AndroidManifest.xml:16:1-24:12
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/241b5aabdc47d89891d3a59bcb871871/transformed/play-services-tasks-18.0.2/AndroidManifest.xml:2:1-6:12
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/292898ae1b23fc03e502c663b8f54374/transformed/play-services-basement-18.1.0/AndroidManifest.xml:16:1-26:12
+MERGED from [androidx.fragment:fragment:1.3.6] /Users/ijonghyeog/.gradle/caches/8.13/transforms/59bab6bb7f4232bc4fc1576b9cc199ee/transformed/fragment-1.3.6/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/19c1d33a18db6cc5e45c3538d9bdfb87/transformed/drawerlayout-1.1.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/5844873cbc73bc3a92236040f200bdda/transformed/coordinatorlayout-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.transition:transition:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/9086a0603f14f4ffdfe9a157c595474f/transformed/transition-1.2.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f4bff02af4e407d3e2c49ad6dcea1d5f/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b5ecfa9f9c60d6458ff0b736c063aebb/transformed/vectordrawable-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/519bacfe0048e6d4335e9710255516b7/transformed/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/4dd5d1db3d08bf1dbf84a5380e38d985/transformed/recyclerview-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.customview:customview:1.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/161620bbdb28a786a37c64ca782bdd9c/transformed/customview-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.core:core:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/22457e5d881015fc88a9b83978100dd5/transformed/core-1.12.0/AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.core:core-ktx:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/62d2b34adc92567ff6547a224cadf6e1/transformed/core-ktx-1.12.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.annotation:annotation-experimental:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/3f11856a673b302657a2f2144779028d/transformed/annotation-experimental-1.3.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/91302cd2220783cda044070af9113cc8/transformed/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cardview:cardview:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/657e2e2907e1a971d17680a76544a08a/transformed/cardview-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/19af4f9cceaefd2b8c5d8ed78c916e80/transformed/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/c6b7eb0c92865dcc16ec04643ba93da2/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:17:1-55:12
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/e6b50b702c2440bb45a87c9a4a98bf0f/transformed/startup-runtime-1.1.1/AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.tracing:tracing:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/07bcbe52f1f09e50fea082287a95227e/transformed/tracing-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.firebase:firebase-components:17.1.5] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f4bc876d44b54bd97344515af04eaf92/transformed/firebase-components-17.1.5/AndroidManifest.xml:15:1-20:12
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/e82ad067b7c2ea5186b1c08ff496b596/transformed/core-runtime-2.2.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/3c52e5febb59ffc976349020c103c608/transformed/documentfile-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f12e3255329779988a3ab8d90bb4ef6e/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/d1917f55183ebf9504e92e3c42fcc891/transformed/print-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.multidex:multidex:2.0.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/fd5e0f6e837cfdfb916879523701ff12/transformed/multidex-2.0.1/AndroidManifest.xml:17:1-22:12
+	package
+		INJECTED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:2:11-69
+queries
+ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:4:5-6:15
+package#kr.co.gmone.multipack_connected_v2
+ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:5:9-70
+	android:name
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:5:18-67
+uses-permission#android.permission.INTERNET
+ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:8:5-67
+MERGED from [com.google.firebase:firebase-database:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/57348445f8ea489d98a7bd7a8a384b58/transformed/firebase-database-20.3.0/AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-database:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/57348445f8ea489d98a7bd7a8a384b58/transformed/firebase-database-20.3.0/AndroidManifest.xml:23:5-67
+	android:name
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:8:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:9:5-79
+MERGED from [com.google.firebase:firebase-database:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/57348445f8ea489d98a7bd7a8a384b58/transformed/firebase-database-20.3.0/AndroidManifest.xml:22:5-79
+MERGED from [com.google.firebase:firebase-database:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/57348445f8ea489d98a7bd7a8a384b58/transformed/firebase-database-20.3.0/AndroidManifest.xml:22:5-79
+	android:name
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:9:22-76
+uses-permission#android.permission.WAKE_LOCK
+ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:10:5-68
+	android:name
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:10:22-65
+uses-permission#android.permission.DISABLE_KEYGUARD
+ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:11:5-75
+	android:name
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:11:22-72
+application
+ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:13:5-41:19
+INJECTED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:13:5-41:19
+MERGED from [com.google.android.material:material:1.11.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/e557fce72b76ff25dbdc825d17f09b50/transformed/material-1.11.0/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.11.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/e557fce72b76ff25dbdc825d17f09b50/transformed/material-1.11.0/AndroidManifest.xml:22:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/aef3aa806bcfd6f72485709caf75593d/transformed/constraintlayout-2.0.1/AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/aef3aa806bcfd6f72485709caf75593d/transformed/constraintlayout-2.0.1/AndroidManifest.xml:9:5-20
+MERGED from [androidx.emoji2:emoji2:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/aa1cc0e0076bb8a6dd38ee8cfb3800bc/transformed/emoji2-1.2.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.emoji2:emoji2:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/aa1cc0e0076bb8a6dd38ee8cfb3800bc/transformed/emoji2-1.2.0/AndroidManifest.xml:23:5-33:19
+MERGED from [com.google.firebase:firebase-database-ktx:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/1f5668e3d25d6ea0b78ddc5982aeec47/transformed/firebase-database-ktx-20.3.0/AndroidManifest.xml:8:5-16:19
+MERGED from [com.google.firebase:firebase-database-ktx:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/1f5668e3d25d6ea0b78ddc5982aeec47/transformed/firebase-database-ktx-20.3.0/AndroidManifest.xml:8:5-16:19
+MERGED from [com.google.firebase:firebase-database:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/57348445f8ea489d98a7bd7a8a384b58/transformed/firebase-database-20.3.0/AndroidManifest.xml:25:5-36:19
+MERGED from [com.google.firebase:firebase-database:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/57348445f8ea489d98a7bd7a8a384b58/transformed/firebase-database-20.3.0/AndroidManifest.xml:25:5-36:19
+MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/892da861bbea6ff06496e3e1c388c634/transformed/firebase-common-ktx-20.4.2/AndroidManifest.xml:8:5-16:19
+MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/892da861bbea6ff06496e3e1c388c634/transformed/firebase-common-ktx-20.4.2/AndroidManifest.xml:8:5-16:19
+MERGED from [com.google.firebase:firebase-common:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/ff667fc177e2e4fb72dff5ff15cf98e2/transformed/firebase-common-20.4.2/AndroidManifest.xml:22:5-39:19
+MERGED from [com.google.firebase:firebase-common:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/ff667fc177e2e4fb72dff5ff15cf98e2/transformed/firebase-common-20.4.2/AndroidManifest.xml:22:5-39:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f75b9d715e08d384af45bd9092fac1ba/transformed/lifecycle-process-2.6.1/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f75b9d715e08d384af45bd9092fac1ba/transformed/lifecycle-process-2.6.1/AndroidManifest.xml:23:5-33:19
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/434a300669c5d470590f4a22f26353bd/transformed/firebase-appcheck-interop-17.1.0/AndroidManifest.xml:21:5-20
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/434a300669c5d470590f4a22f26353bd/transformed/firebase-appcheck-interop-17.1.0/AndroidManifest.xml:21:5-20
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/beb2c3de43cc37c20a9452fc239169c6/transformed/firebase-auth-interop-20.0.0/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/beb2c3de43cc37c20a9452fc239169c6/transformed/firebase-auth-interop-20.0.0/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.android.gms:play-services-base:18.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/4e83b52bf2e87b743e3d7ee01d2602d3/transformed/play-services-base-18.1.0/AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-base:18.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/4e83b52bf2e87b743e3d7ee01d2602d3/transformed/play-services-base-18.1.0/AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/241b5aabdc47d89891d3a59bcb871871/transformed/play-services-tasks-18.0.2/AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/241b5aabdc47d89891d3a59bcb871871/transformed/play-services-tasks-18.0.2/AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/292898ae1b23fc03e502c663b8f54374/transformed/play-services-basement-18.1.0/AndroidManifest.xml:20:5-24:19
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/292898ae1b23fc03e502c663b8f54374/transformed/play-services-basement-18.1.0/AndroidManifest.xml:20:5-24:19
+MERGED from [androidx.core:core:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/22457e5d881015fc88a9b83978100dd5/transformed/core-1.12.0/AndroidManifest.xml:28:5-89
+MERGED from [androidx.core:core:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/22457e5d881015fc88a9b83978100dd5/transformed/core-1.12.0/AndroidManifest.xml:28:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/c6b7eb0c92865dcc16ec04643ba93da2/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/c6b7eb0c92865dcc16ec04643ba93da2/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/e6b50b702c2440bb45a87c9a4a98bf0f/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/e6b50b702c2440bb45a87c9a4a98bf0f/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+	android:extractNativeLibs
+		INJECTED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/22457e5d881015fc88a9b83978100dd5/transformed/core-1.12.0/AndroidManifest.xml:28:18-86
+	android:supportsRtl
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:17:9-35
+	android:label
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:16:9-52
+	android:allowBackup
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:15:9-35
+	android:theme
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:18:9-65
+	android:name
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:14:9-43
+service#com.example.scraper.MinimalScraperService
+ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:20:9-30:19
+	android:exported
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:23:13-36
+	android:permission
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:22:13-79
+	android:name
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:21:13-50
+intent-filter#action:name:android.accessibilityservice.AccessibilityService
+ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:24:13-26:29
+action#android.accessibilityservice.AccessibilityService
+ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:25:17-92
+	android:name
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:25:25-89
+meta-data#android.accessibilityservice
+ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:27:13-29:64
+	android:resource
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:29:17-61
+	android:name
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:28:17-60
+activity#com.example.scraper.MainActivity
+ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:32:9-39:20
+	android:exported
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:34:13-36
+	android:name
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:33:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:35:13-38:29
+action#android.intent.action.MAIN
+ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:36:17-69
+	android:name
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:36:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:37:17-77
+	android:name
+		ADDED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml:37:27-74
+uses-sdk
+INJECTED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml
+INJECTED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml
+MERGED from [com.google.android.material:material:1.11.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/e557fce72b76ff25dbdc825d17f09b50/transformed/material-1.11.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.11.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/e557fce72b76ff25dbdc825d17f09b50/transformed/material-1.11.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f43362dd931736e28bf1b6d232a6cd9f/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f43362dd931736e28bf1b6d232a6cd9f/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/aef3aa806bcfd6f72485709caf75593d/transformed/constraintlayout-2.0.1/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/aef3aa806bcfd6f72485709caf75593d/transformed/constraintlayout-2.0.1/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.appcompat:appcompat:1.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/91c174e6d019d8a3df33689611c50b6e/transformed/appcompat-1.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/91c174e6d019d8a3df33689611c50b6e/transformed/appcompat-1.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/bb276939388dfc7cda606138b7dfde43/transformed/emoji2-views-helper-1.2.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/bb276939388dfc7cda606138b7dfde43/transformed/emoji2-views-helper-1.2.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.emoji2:emoji2:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/aa1cc0e0076bb8a6dd38ee8cfb3800bc/transformed/emoji2-1.2.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.emoji2:emoji2:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/aa1cc0e0076bb8a6dd38ee8cfb3800bc/transformed/emoji2-1.2.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/4fceabb0aacf3f0ae25cae13813bf2e3/transformed/viewpager2-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/4fceabb0aacf3f0ae25cae13813bf2e3/transformed/viewpager2-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.firebase:firebase-database-ktx:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/1f5668e3d25d6ea0b78ddc5982aeec47/transformed/firebase-database-ktx-20.3.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-database-ktx:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/1f5668e3d25d6ea0b78ddc5982aeec47/transformed/firebase-database-ktx-20.3.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-database:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/57348445f8ea489d98a7bd7a8a384b58/transformed/firebase-database-20.3.0/AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-database:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/57348445f8ea489d98a7bd7a8a384b58/transformed/firebase-database-20.3.0/AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/892da861bbea6ff06496e3e1c388c634/transformed/firebase-common-ktx-20.4.2/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/892da861bbea6ff06496e3e1c388c634/transformed/firebase-common-ktx-20.4.2/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-common:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/ff667fc177e2e4fb72dff5ff15cf98e2/transformed/firebase-common-20.4.2/AndroidManifest.xml:19:5-44
+MERGED from [com.google.firebase:firebase-common:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/ff667fc177e2e4fb72dff5ff15cf98e2/transformed/firebase-common-20.4.2/AndroidManifest.xml:19:5-44
+MERGED from [androidx.activity:activity:1.8.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/5449c0fbfa1eec2dc42352707961aad7/transformed/activity-1.8.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.8.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/5449c0fbfa1eec2dc42352707961aad7/transformed/activity-1.8.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/844f27003b6c9486f7f8de90781daa79/transformed/dynamicanimation-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.dynamicanimation:dynamicanimation:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/844f27003b6c9486f7f8de90781daa79/transformed/dynamicanimation-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/11109fdd8804e220bd284875751a7981/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/11109fdd8804e220bd284875751a7981/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f9b4e22f6b530998d121ada6349aafb4/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f9b4e22f6b530998d121ada6349aafb4/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/a405bf5a8e6cd192b7f8c9574e366067/transformed/savedstate-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/a405bf5a8e6cd192b7f8c9574e366067/transformed/savedstate-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f75b9d715e08d384af45bd9092fac1ba/transformed/lifecycle-process-2.6.1/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f75b9d715e08d384af45bd9092fac1ba/transformed/lifecycle-process-2.6.1/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/bec4b855d1eb7489e492654558f77088/transformed/lifecycle-livedata-core-2.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/bec4b855d1eb7489e492654558f77088/transformed/lifecycle-livedata-core-2.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b807bbd76fdfcc8cb010c5dcf8ca5afc/transformed/lifecycle-livedata-2.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b807bbd76fdfcc8cb010c5dcf8ca5afc/transformed/lifecycle-livedata-2.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/c8835c1d81702d792c0c6bfda0805863/transformed/lifecycle-viewmodel-2.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/c8835c1d81702d792c0c6bfda0805863/transformed/lifecycle-viewmodel-2.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/8e89cefd0d5a4dbb8cf59c03bd013266/transformed/lifecycle-runtime-2.6.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/8e89cefd0d5a4dbb8cf59c03bd013266/transformed/lifecycle-runtime-2.6.1/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/1e0eb81021537c8b8370e8a5e2b1543d/transformed/lifecycle-viewmodel-savedstate-2.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/1e0eb81021537c8b8370e8a5e2b1543d/transformed/lifecycle-viewmodel-savedstate-2.6.1/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/434a300669c5d470590f4a22f26353bd/transformed/firebase-appcheck-interop-17.1.0/AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-appcheck-interop:17.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/434a300669c5d470590f4a22f26353bd/transformed/firebase-appcheck-interop-17.1.0/AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/beb2c3de43cc37c20a9452fc239169c6/transformed/firebase-auth-interop-20.0.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/beb2c3de43cc37c20a9452fc239169c6/transformed/firebase-auth-interop-20.0.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-database-collection:18.0.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/415a79bcb5667a54fffe343fd43bf39a/transformed/firebase-database-collection-18.0.1/AndroidManifest.xml:5:5-7:41
+MERGED from [com.google.firebase:firebase-database-collection:18.0.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/415a79bcb5667a54fffe343fd43bf39a/transformed/firebase-database-collection-18.0.1/AndroidManifest.xml:5:5-7:41
+MERGED from [com.google.android.gms:play-services-base:18.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/4e83b52bf2e87b743e3d7ee01d2602d3/transformed/play-services-base-18.1.0/AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-base:18.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/4e83b52bf2e87b743e3d7ee01d2602d3/transformed/play-services-base-18.1.0/AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/241b5aabdc47d89891d3a59bcb871871/transformed/play-services-tasks-18.0.2/AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.0.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/241b5aabdc47d89891d3a59bcb871871/transformed/play-services-tasks-18.0.2/AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/292898ae1b23fc03e502c663b8f54374/transformed/play-services-basement-18.1.0/AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/292898ae1b23fc03e502c663b8f54374/transformed/play-services-basement-18.1.0/AndroidManifest.xml:18:5-43
+MERGED from [androidx.fragment:fragment:1.3.6] /Users/ijonghyeog/.gradle/caches/8.13/transforms/59bab6bb7f4232bc4fc1576b9cc199ee/transformed/fragment-1.3.6/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.3.6] /Users/ijonghyeog/.gradle/caches/8.13/transforms/59bab6bb7f4232bc4fc1576b9cc199ee/transformed/fragment-1.3.6/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/19c1d33a18db6cc5e45c3538d9bdfb87/transformed/drawerlayout-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.1.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/19c1d33a18db6cc5e45c3538d9bdfb87/transformed/drawerlayout-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/5844873cbc73bc3a92236040f200bdda/transformed/coordinatorlayout-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/5844873cbc73bc3a92236040f200bdda/transformed/coordinatorlayout-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/9086a0603f14f4ffdfe9a157c595474f/transformed/transition-1.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/9086a0603f14f4ffdfe9a157c595474f/transformed/transition-1.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f4bff02af4e407d3e2c49ad6dcea1d5f/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f4bff02af4e407d3e2c49ad6dcea1d5f/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b5ecfa9f9c60d6458ff0b736c063aebb/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b5ecfa9f9c60d6458ff0b736c063aebb/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/519bacfe0048e6d4335e9710255516b7/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/519bacfe0048e6d4335e9710255516b7/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/4dd5d1db3d08bf1dbf84a5380e38d985/transformed/recyclerview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/4dd5d1db3d08bf1dbf84a5380e38d985/transformed/recyclerview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/161620bbdb28a786a37c64ca782bdd9c/transformed/customview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/161620bbdb28a786a37c64ca782bdd9c/transformed/customview-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/22457e5d881015fc88a9b83978100dd5/transformed/core-1.12.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/22457e5d881015fc88a9b83978100dd5/transformed/core-1.12.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core-ktx:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/62d2b34adc92567ff6547a224cadf6e1/transformed/core-ktx-1.12.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/62d2b34adc92567ff6547a224cadf6e1/transformed/core-ktx-1.12.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/3f11856a673b302657a2f2144779028d/transformed/annotation-experimental-1.3.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/3f11856a673b302657a2f2144779028d/transformed/annotation-experimental-1.3.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/91302cd2220783cda044070af9113cc8/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/91302cd2220783cda044070af9113cc8/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/657e2e2907e1a971d17680a76544a08a/transformed/cardview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/657e2e2907e1a971d17680a76544a08a/transformed/cardview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/19af4f9cceaefd2b8c5d8ed78c916e80/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/19af4f9cceaefd2b8c5d8ed78c916e80/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/c6b7eb0c92865dcc16ec04643ba93da2/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/c6b7eb0c92865dcc16ec04643ba93da2/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/e6b50b702c2440bb45a87c9a4a98bf0f/transformed/startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/e6b50b702c2440bb45a87c9a4a98bf0f/transformed/startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.tracing:tracing:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/07bcbe52f1f09e50fea082287a95227e/transformed/tracing-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/07bcbe52f1f09e50fea082287a95227e/transformed/tracing-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.firebase:firebase-components:17.1.5] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f4bc876d44b54bd97344515af04eaf92/transformed/firebase-components-17.1.5/AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-components:17.1.5] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f4bc876d44b54bd97344515af04eaf92/transformed/firebase-components-17.1.5/AndroidManifest.xml:18:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/e82ad067b7c2ea5186b1c08ff496b596/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/e82ad067b7c2ea5186b1c08ff496b596/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/3c52e5febb59ffc976349020c103c608/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/3c52e5febb59ffc976349020c103c608/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f12e3255329779988a3ab8d90bb4ef6e/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f12e3255329779988a3ab8d90bb4ef6e/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/d1917f55183ebf9504e92e3c42fcc891/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/d1917f55183ebf9504e92e3c42fcc891/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.multidex:multidex:2.0.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/fd5e0f6e837cfdfb916879523701ff12/transformed/multidex-2.0.1/AndroidManifest.xml:20:5-43
+MERGED from [androidx.multidex:multidex:2.0.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/fd5e0f6e837cfdfb916879523701ff12/transformed/multidex-2.0.1/AndroidManifest.xml:20:5-43
+	android:targetSdkVersion
+		INJECTED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/ijonghyeog/AndroidStudioProjects/carcontroller_b/scraper/src/main/AndroidManifest.xml
+provider#androidx.startup.InitializationProvider
+ADDED from [androidx.emoji2:emoji2:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/aa1cc0e0076bb8a6dd38ee8cfb3800bc/transformed/emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f75b9d715e08d384af45bd9092fac1ba/transformed/lifecycle-process-2.6.1/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f75b9d715e08d384af45bd9092fac1ba/transformed/lifecycle-process-2.6.1/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/e6b50b702c2440bb45a87c9a4a98bf0f/transformed/startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/e6b50b702c2440bb45a87c9a4a98bf0f/transformed/startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
+	tools:node
+		ADDED from [androidx.emoji2:emoji2:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/aa1cc0e0076bb8a6dd38ee8cfb3800bc/transformed/emoji2-1.2.0/AndroidManifest.xml:28:13-31
+	android:authorities
+		ADDED from [androidx.emoji2:emoji2:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/aa1cc0e0076bb8a6dd38ee8cfb3800bc/transformed/emoji2-1.2.0/AndroidManifest.xml:26:13-68
+	android:exported
+		ADDED from [androidx.emoji2:emoji2:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/aa1cc0e0076bb8a6dd38ee8cfb3800bc/transformed/emoji2-1.2.0/AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/aa1cc0e0076bb8a6dd38ee8cfb3800bc/transformed/emoji2-1.2.0/AndroidManifest.xml:25:13-67
+meta-data#androidx.emoji2.text.EmojiCompatInitializer
+ADDED from [androidx.emoji2:emoji2:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/aa1cc0e0076bb8a6dd38ee8cfb3800bc/transformed/emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.emoji2:emoji2:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/aa1cc0e0076bb8a6dd38ee8cfb3800bc/transformed/emoji2-1.2.0/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.2.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/aa1cc0e0076bb8a6dd38ee8cfb3800bc/transformed/emoji2-1.2.0/AndroidManifest.xml:30:17-75
+service#com.google.firebase.components.ComponentDiscoveryService
+ADDED from [com.google.firebase:firebase-database-ktx:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/1f5668e3d25d6ea0b78ddc5982aeec47/transformed/firebase-database-ktx-20.3.0/AndroidManifest.xml:9:9-15:19
+MERGED from [com.google.firebase:firebase-database:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/57348445f8ea489d98a7bd7a8a384b58/transformed/firebase-database-20.3.0/AndroidManifest.xml:26:9-35:19
+MERGED from [com.google.firebase:firebase-database:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/57348445f8ea489d98a7bd7a8a384b58/transformed/firebase-database-20.3.0/AndroidManifest.xml:26:9-35:19
+MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/892da861bbea6ff06496e3e1c388c634/transformed/firebase-common-ktx-20.4.2/AndroidManifest.xml:9:9-15:19
+MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/892da861bbea6ff06496e3e1c388c634/transformed/firebase-common-ktx-20.4.2/AndroidManifest.xml:9:9-15:19
+MERGED from [com.google.firebase:firebase-common:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/ff667fc177e2e4fb72dff5ff15cf98e2/transformed/firebase-common-20.4.2/AndroidManifest.xml:30:9-38:19
+MERGED from [com.google.firebase:firebase-common:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/ff667fc177e2e4fb72dff5ff15cf98e2/transformed/firebase-common-20.4.2/AndroidManifest.xml:30:9-38:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-database-ktx:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/1f5668e3d25d6ea0b78ddc5982aeec47/transformed/firebase-database-ktx-20.3.0/AndroidManifest.xml:11:13-37
+	tools:targetApi
+		ADDED from [com.google.firebase:firebase-common:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/ff667fc177e2e4fb72dff5ff15cf98e2/transformed/firebase-common-20.4.2/AndroidManifest.xml:34:13-32
+	android:directBootAware
+		ADDED from [com.google.firebase:firebase-common:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/ff667fc177e2e4fb72dff5ff15cf98e2/transformed/firebase-common-20.4.2/AndroidManifest.xml:32:13-43
+	android:name
+		ADDED from [com.google.firebase:firebase-database-ktx:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/1f5668e3d25d6ea0b78ddc5982aeec47/transformed/firebase-database-ktx-20.3.0/AndroidManifest.xml:10:13-84
+meta-data#com.google.firebase.components:com.google.firebase.database.ktx.FirebaseDatabaseLegacyRegistrar
+ADDED from [com.google.firebase:firebase-database-ktx:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/1f5668e3d25d6ea0b78ddc5982aeec47/transformed/firebase-database-ktx-20.3.0/AndroidManifest.xml:12:13-14:85
+	android:value
+		ADDED from [com.google.firebase:firebase-database-ktx:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/1f5668e3d25d6ea0b78ddc5982aeec47/transformed/firebase-database-ktx-20.3.0/AndroidManifest.xml:14:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-database-ktx:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/1f5668e3d25d6ea0b78ddc5982aeec47/transformed/firebase-database-ktx-20.3.0/AndroidManifest.xml:13:17-127
+meta-data#com.google.firebase.components:com.google.firebase.database.FirebaseDatabaseKtxRegistrar
+ADDED from [com.google.firebase:firebase-database:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/57348445f8ea489d98a7bd7a8a384b58/transformed/firebase-database-20.3.0/AndroidManifest.xml:29:13-31:85
+	android:value
+		ADDED from [com.google.firebase:firebase-database:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/57348445f8ea489d98a7bd7a8a384b58/transformed/firebase-database-20.3.0/AndroidManifest.xml:31:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-database:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/57348445f8ea489d98a7bd7a8a384b58/transformed/firebase-database-20.3.0/AndroidManifest.xml:30:17-120
+meta-data#com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar
+ADDED from [com.google.firebase:firebase-database:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/57348445f8ea489d98a7bd7a8a384b58/transformed/firebase-database-20.3.0/AndroidManifest.xml:32:13-34:85
+	android:value
+		ADDED from [com.google.firebase:firebase-database:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/57348445f8ea489d98a7bd7a8a384b58/transformed/firebase-database-20.3.0/AndroidManifest.xml:34:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-database:20.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/57348445f8ea489d98a7bd7a8a384b58/transformed/firebase-database-20.3.0/AndroidManifest.xml:33:17-109
+meta-data#com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonLegacyRegistrar
+ADDED from [com.google.firebase:firebase-common-ktx:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/892da861bbea6ff06496e3e1c388c634/transformed/firebase-common-ktx-20.4.2/AndroidManifest.xml:12:13-14:85
+	android:value
+		ADDED from [com.google.firebase:firebase-common-ktx:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/892da861bbea6ff06496e3e1c388c634/transformed/firebase-common-ktx-20.4.2/AndroidManifest.xml:14:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-common-ktx:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/892da861bbea6ff06496e3e1c388c634/transformed/firebase-common-ktx-20.4.2/AndroidManifest.xml:13:17-116
+provider#com.google.firebase.provider.FirebaseInitProvider
+ADDED from [com.google.firebase:firebase-common:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/ff667fc177e2e4fb72dff5ff15cf98e2/transformed/firebase-common-20.4.2/AndroidManifest.xml:23:9-28:39
+	android:authorities
+		ADDED from [com.google.firebase:firebase-common:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/ff667fc177e2e4fb72dff5ff15cf98e2/transformed/firebase-common-20.4.2/AndroidManifest.xml:25:13-72
+	android:exported
+		ADDED from [com.google.firebase:firebase-common:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/ff667fc177e2e4fb72dff5ff15cf98e2/transformed/firebase-common-20.4.2/AndroidManifest.xml:27:13-37
+	android:directBootAware
+		ADDED from [com.google.firebase:firebase-common:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/ff667fc177e2e4fb72dff5ff15cf98e2/transformed/firebase-common-20.4.2/AndroidManifest.xml:26:13-43
+	android:initOrder
+		ADDED from [com.google.firebase:firebase-common:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/ff667fc177e2e4fb72dff5ff15cf98e2/transformed/firebase-common-20.4.2/AndroidManifest.xml:28:13-36
+	android:name
+		ADDED from [com.google.firebase:firebase-common:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/ff667fc177e2e4fb72dff5ff15cf98e2/transformed/firebase-common-20.4.2/AndroidManifest.xml:24:13-77
+meta-data#com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar
+ADDED from [com.google.firebase:firebase-common:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/ff667fc177e2e4fb72dff5ff15cf98e2/transformed/firebase-common-20.4.2/AndroidManifest.xml:35:13-37:85
+	android:value
+		ADDED from [com.google.firebase:firebase-common:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/ff667fc177e2e4fb72dff5ff15cf98e2/transformed/firebase-common-20.4.2/AndroidManifest.xml:37:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-common:20.4.2] /Users/ijonghyeog/.gradle/caches/8.13/transforms/ff667fc177e2e4fb72dff5ff15cf98e2/transformed/firebase-common-20.4.2/AndroidManifest.xml:36:17-109
+meta-data#androidx.lifecycle.ProcessLifecycleInitializer
+ADDED from [androidx.lifecycle:lifecycle-process:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f75b9d715e08d384af45bd9092fac1ba/transformed/lifecycle-process-2.6.1/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.lifecycle:lifecycle-process:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f75b9d715e08d384af45bd9092fac1ba/transformed/lifecycle-process-2.6.1/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.lifecycle:lifecycle-process:2.6.1] /Users/ijonghyeog/.gradle/caches/8.13/transforms/f75b9d715e08d384af45bd9092fac1ba/transformed/lifecycle-process-2.6.1/AndroidManifest.xml:30:17-78
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:18.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/4e83b52bf2e87b743e3d7ee01d2602d3/transformed/play-services-base-18.1.0/AndroidManifest.xml:20:9-22:45
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:18.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/4e83b52bf2e87b743e3d7ee01d2602d3/transformed/play-services-base-18.1.0/AndroidManifest.xml:22:19-43
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:18.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/4e83b52bf2e87b743e3d7ee01d2602d3/transformed/play-services-base-18.1.0/AndroidManifest.xml:21:19-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:18.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/4e83b52bf2e87b743e3d7ee01d2602d3/transformed/play-services-base-18.1.0/AndroidManifest.xml:20:19-85
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:18.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/292898ae1b23fc03e502c663b8f54374/transformed/play-services-basement-18.1.0/AndroidManifest.xml:21:9-23:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:18.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/292898ae1b23fc03e502c663b8f54374/transformed/play-services-basement-18.1.0/AndroidManifest.xml:23:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:18.1.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/292898ae1b23fc03e502c663b8f54374/transformed/play-services-basement-18.1.0/AndroidManifest.xml:22:13-58
+permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/22457e5d881015fc88a9b83978100dd5/transformed/core-1.12.0/AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/22457e5d881015fc88a9b83978100dd5/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/22457e5d881015fc88a9b83978100dd5/transformed/core-1.12.0/AndroidManifest.xml:23:9-81
+permission#com.example.scraper.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/22457e5d881015fc88a9b83978100dd5/transformed/core-1.12.0/AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/22457e5d881015fc88a9b83978100dd5/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/22457e5d881015fc88a9b83978100dd5/transformed/core-1.12.0/AndroidManifest.xml:23:9-81
+uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/22457e5d881015fc88a9b83978100dd5/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/22457e5d881015fc88a9b83978100dd5/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
+uses-permission#com.example.scraper.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/22457e5d881015fc88a9b83978100dd5/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.12.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/22457e5d881015fc88a9b83978100dd5/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
+meta-data#androidx.profileinstaller.ProfileInstallerInitializer
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:30:17-85
+receiver#androidx.profileinstaller.ProfileInstallReceiver
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:34:9-52:20
+	android:enabled
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:38:13-36
+	android:permission
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:39:13-57
+	android:directBootAware
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:36:13-44
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:35:13-76
+intent-filter#action:name:androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:40:13-42:29
+action#androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:41:17-91
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:41:25-88
+intent-filter#action:name:androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:43:13-45:29
+action#androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:44:17-85
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:44:25-82
+intent-filter#action:name:androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:46:13-48:29
+action#androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:47:17-88
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:47:25-85
+intent-filter#action:name:androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:49:13-51:29
+action#androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:50:17-95
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] /Users/ijonghyeog/.gradle/caches/8.13/transforms/b15d3584e6d8043b202acbbeca538b88/transformed/profileinstaller-1.3.0/AndroidManifest.xml:50:25-92

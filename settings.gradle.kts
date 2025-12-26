@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "carcontroller"
 include(":app")
+
+include(":scraper")

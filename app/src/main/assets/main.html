@@ -380,6 +380,33 @@
             font-weight: 500;
         }
 
+        /* ‼️ (New) Header Refresh Button */
+        .refresh-button-header {
+            position: absolute;
+            right: 0;
+            top: 5px;
+            /* Adjust alignment with title */
+            background-color: #333;
+            /* Grey */
+            color: #aeaeae;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+
+        .refresh-button-header:active {
+            transform: rotate(180deg);
+            background-color: #444;
+            color: white;
+        }
+
         .car-image-container {
             width: 100%;
             height: 280px;
@@ -409,11 +436,108 @@
             font-weight: 500;
             padding: 20px 0;
             border-top: 1px solid var(--border-color);
-            margin-top: 20px;
+            /* margin-top: 20px; Removed to fit new stats */
 
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+        }
+
+        /* ‼️ (New) Vehicle Stats Row */
+        .vehicle-stats-row {
+            display: flex;
+            justify-content: space-around;
+            background-color: #111;
+            border-radius: 12px;
+            padding: 15px 10px;
+            margin-top: -30px;
+            /* Overlap with car image slightly */
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 5;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            border: 1px solid #222;
+        }
+
+        .v-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            min-width: 80px;
+            /* Ensure space for wider battery text */
+        }
+
+        .v-stat i {
+            color: var(--accent-color);
+            /* Orange icons */
+            font-size: 16px;
+        }
+
+        .v-stat span {
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .v-stat .unit {
+            font-size: 12px;
+            color: #888;
+            font-weight: normal;
+        }
+
+        /* [NEW] Last Update Text - Premium Pill Style */
+        .last-update-text {
+            /* Hidden by default */
+            display: none;
+            align-items: center;
+            /* Center icon and text */
+            justify-content: center;
+            gap: 6px;
+            /* Icon spacing */
+
+            background-color: rgba(255, 255, 255, 0.08);
+            /* Glass effect */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            /* Pill shape */
+
+            padding: 6px 14px;
+            margin-top: 8px;
+            /* Spacing from plate */
+            margin-bottom: 25px;
+
+            font-size: 11px;
+            color: #aaa;
+            /* Softer text color */
+            font-weight: 500;
+            letter-spacing: 0.5px;
+
+            backdrop-filter: blur(4px);
+            /* Blur background if overlapped */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        /* Subtle hover effect */
+        .last-update-text:active {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: scale(0.98);
+        }
+
+        .last-update-text i {
+            font-size: 10px;
+            color: var(--accent-color);
+            /* Use accent color for icon */
+        }
+
+        .fuel-percentage {
+            font-size: 14px;
+            color: #FF9800;
+            /* Orange for fuel */
+            margin-left: 6px;
+            font-weight: 600;
+            opacity: 0.9;
         }
 
         /* (수정) 주행중 자동차 아이콘 스타일 */
@@ -1257,10 +1381,34 @@
 
                             <span class="dashboard-title">TRAVERSE</span>
                             <span class="dashboard-plate">2023 3.6 REDLINE</span>
+
+                            <!-- [NEW] Last Update UI -->
+                            <div id="last-update-display" class="last-update-text"></div>
+
+                            <!-- ‼️ (New) Refresh Button -->
+                            <div class="refresh-button-header" onclick="handleRefreshClick()">
+                                <i class="fas fa-sync-alt"></i>
+                            </div>
                         </div>
 
                         <div class="car-image-container">
                             <img src="my_car.png" alt="My Car" class="car-image">
+                        </div>
+
+                        <!-- ‼️ (New) Vehicle Stats Badge -->
+                        <div class="vehicle-stats-row">
+                            <div class="v-stat">
+                                <span id="val-range">--<span class="unit">km</span></span>
+                                <span class="unit" style="margin-top:-2px">주행가능</span>
+                            </div>
+                            <div class="v-stat">
+                                <span id="val-battery">--</span>
+                                <span class="unit" style="margin-top:-2px">배터리</span>
+                            </div>
+                            <div class="v-stat">
+                                <span id="val-mileage">--<span class="unit">km</span></span>
+                                <span class="unit" style="margin-top:-2px">총 주행</span>
+                            </div>
                         </div>
 
                         <div class="dashboard-status" id="dashboard-status-display">
@@ -2020,6 +2168,128 @@
         });
 
         // ‼️ (신규) 주차 위치 지도 업데이트 함수
+        // ‼️ (New) Update Vehicle Status from Firebase (Range, Battery, Mileage, Fuel, LastUpdate)
+        function updateCarStatus(range, battery, batteryLevel, mileage, fuel, lastUpdate) {
+            // 1. Range & Fuel Logic (Format: "98% (566km)")
+            let fuelPercent = '';
+            let rangeText = '';
+
+            // A. Calculate/Extract Fuel %
+            if (fuel && fuel !== '--') {
+                if (fuel.includes('%')) {
+                    fuelPercent = fuel;
+                } else {
+                    // Try parsing as Liters (Capacity ~82L for Traverse)
+                    const val = parseFloat(fuel.replace(/[^0-9.]/g, ''));
+                    if (!isNaN(val)) {
+                        fuelPercent = Math.round((val / 82) * 100) + '%';
+                    }
+                }
+            }
+
+            // B. Range Text
+            if (range && range !== '--') {
+                rangeText = Number(range).toLocaleString() + 'km';
+            }
+
+            // C. Construct HTML
+            let finalHtml = '';
+            if (fuelPercent) {
+                // Primary: Fuel % (White, 17px)
+                finalHtml += `<span style="color:#fff; font-size:17px; font-weight:700;">${fuelPercent}</span>`;
+
+                if (rangeText) {
+                    // Secondary: Range (Gray, 13px)
+                    finalHtml += `<span style="color:#888; font-size:13px; font-weight:400; margin-left:6px;">(${rangeText})</span>`;
+                }
+            } else {
+                // Fallback: Just Range if no fuel info
+                if (rangeText) {
+                    finalHtml = `<span style="color:#fff; font-size:17px; font-weight:700;">${rangeText}</span>`;
+                } else {
+                    finalHtml = '--';
+                }
+            }
+            document.getElementById('val-range').innerHTML = finalHtml;
+
+
+            // 2. Battery (Level + Volts)
+            // ex: 60% (12.3V)
+            let batText = "";
+            if (batteryLevel && batteryLevel !== '--') batText += batteryLevel + "%";
+
+            if (battery && battery !== '--') {
+                if (batText !== "") batText += " ";
+                batText += '<span class="unit" style="font-size:13px; font-weight:normal">(' + battery + "V)</span>";
+            }
+            if (batText === "") batText = "--";
+
+            document.getElementById('val-battery').innerHTML = batText;
+
+            // 3. Mileage
+            if (mileage && mileage !== '--') {
+                document.getElementById('val-mileage').innerHTML = mileage + '<span class="unit">km</span>';
+            }
+
+            // 4. Last Update Time (Format: "2025.12.31 14:21")
+            // Input: "2024-12-24 14:30:00"
+            const updateEl = document.getElementById('last-update-display');
+            if (lastUpdate && lastUpdate.length > 5) {
+                try {
+                    // Normalize separator
+                    const parts = lastUpdate.split(' ');
+                    if (parts.length >= 2) {
+                        const datePart = parts[0].replace(/-/g, '.'); // 2024.12.24
+                        const timePart = parts[1].substring(0, 5); // 14:30
+                        updateEl.innerHTML = `${datePart} ${timePart}`;
+                    } else {
+                        updateEl.innerHTML = lastUpdate;
+                    }
+                } catch (e) {
+                    updateEl.innerHTML = lastUpdate;
+                }
+                // Removed forced display: inline-flex. Controlled by button.
+            } else {
+                updateEl.innerHTML = '데이터 없음';
+            }
+        }
+
+        // ‼️ (New) Two-Step Refresh Logic
+        let refreshStep = 0;
+        let refreshTimer = null;
+
+        function handleRefreshClick() {
+            const updateEl = document.getElementById('last-update-display');
+
+            if (refreshStep === 0) {
+                // Step 1: Show Time
+                updateEl.style.display = 'inline-flex';
+                // Add fade-in animation or class if desired
+
+                refreshStep = 1;
+
+                // Auto-hide after 3 seconds if not pressed again
+                if (refreshTimer) clearTimeout(refreshTimer);
+                refreshTimer = setTimeout(() => {
+                    updateEl.style.display = 'none';
+                    refreshStep = 0;
+                }, 3000); // 3 seconds timeout
+
+            } else {
+                // Step 2: Trigger Refresh
+                if (refreshTimer) clearTimeout(refreshTimer);
+                console.log('Requesting refresh...');
+                if (window.Android) window.Android.refreshCarData();
+
+                // Keep showing logic? Or hide? 
+                // Let's hide it to indicate "Request Sent" or maybe show "requesting..."?
+                // User said "Once -> Time, Twice -> Refresh". 
+                // Let's reset the state.
+                updateEl.style.display = 'none';
+                refreshStep = 0;
+            }
+        }
+
         // ‼️ (신규) 주차 위치 지도 업데이트 함수 (주소 표시로 변경)
         function updateParkingMap(lat, lon, time, address) {
             const timeEl = document.getElementById('saved-location-time');

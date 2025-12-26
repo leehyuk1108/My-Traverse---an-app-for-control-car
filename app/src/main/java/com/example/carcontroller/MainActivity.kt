@@ -10,6 +10,8 @@ import android.bluetooth.BluetoothProfile
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.Job
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 import android.annotation.SuppressLint
 import android.app.AlarmManager
@@ -98,6 +100,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
 
     private var isPageLoaded = false
     private var isSetupDialogShowing = false
+    
+    // [NEW] Track Refresh Request Time
+    private var lastRefreshRequestTime: Long = 0
 
     private data class StatusTuple(val message: String, val timeString: String, val icon: String, val isActive: Boolean)
 
@@ -214,6 +219,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
         }
     }
 
+    // ‼️ (New) Firebase Caching Variables
+    private var lastFuel: String? = null
+    private var lastMileage: String? = null
+    private var lastOil: String? = null
+    private var lastRefreshStatus: String = "" // [NEW] Cache for status
+
     // ‼️ (New) Receiver for Save Completion
     private val drivingSavedReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -240,6 +251,52 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
             updateDashboardStatus()
         }
     }
+
+    // ‼️ (New) Firebase Listener for Car Status
+    private val firebaseListener = object : com.google.firebase.database.ValueEventListener {
+        override fun onDataChange(snapshot: com.google.firebase.database.DataSnapshot) {
+            val fuel = snapshot.child("fuel").getValue(String::class.java) ?: "--"
+            val mileage = snapshot.child("mileage").getValue(String::class.java) ?: "--"
+            // val oil = snapshot.child("oil").getValue(String::class.java) ?: "--" // Deprecated for UI
+            val range = snapshot.child("range").getValue(String::class.java) ?: "--"
+            val battery = snapshot.child("battery").getValue(String::class.java) ?: "--"
+            val batteryLevel = snapshot.child("battery_level").getValue(String::class.java) ?: "--"
+            val lastUpdateStr = snapshot.child("last_update").getValue(String::class.java)
+            val refreshStatus = snapshot.child("refresh_status").getValue(String::class.java) ?: ""
+            
+            // [NEW] Edge Trigger: Only show when status CHANGES to 'success'
+            // This covers both Manual (Button) and Auto (10min) refreshes.
+            if (refreshStatus == "success" && lastRefreshStatus != "success") {
+                 val displayTime = lastUpdateStr ?: "Just now"
+                 showJsStatus("새로고침 및 수집 완료 ($displayTime)", "success")
+            }
+            lastRefreshStatus = refreshStatus // Update cache
+            
+            Log.d("MainActivity", "Firebase Update: Status=$refreshStatus (Prev=$lastRefreshStatus)")
+            
+            // Cache data
+            lastFuel = fuel
+            lastMileage = mileage
+            // lastOil = oil
+            
+            // Send to WebView if loaded
+            if (isPageLoaded) {
+                 // updateCarStatus(range, battery, batteryLevel, mileage, fuel, lastUpdate)
+                 // Mapping: Range -> Slot 1, Battery -> Slot 2, Mileage -> Slot 3, Fuel -> Slot 4, Time -> Slot 5
+                 val safeFuel = fuel ?: "--"
+                 val safeTime = lastUpdateStr ?: ""
+                 runJs("updateCarStatus('$range', '$battery', '$batteryLevel', '$mileage', '$safeFuel', '$safeTime')")
+            }
+        }
+
+        override fun onCancelled(error: com.google.firebase.database.DatabaseError) {
+            Log.e("MainActivity", "Firebase Error", error.toException())
+            if (isPageLoaded) {
+                 showJsStatus("Firebase 오류: ${error.message}", "danger")
+            }
+        }
+    }
+
 
     // ======================================================
 
@@ -299,6 +356,11 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
             addAction(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
         }
         registerReceiver(mainActivityBluetoothReceiver, filter)
+
+        // ‼️ (New) Connect to Firebase (Explicit URL)
+        com.google.firebase.ktx.Firebase.database("https://mycarserver-fb85e-default-rtdb.firebaseio.com/").reference.child("car_status")
+            .addValueEventListener(firebaseListener)
+
 
         // Bluetooth 프로필 프록시 요청
         val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
@@ -1292,6 +1354,35 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
             }
         }
 
+        // ‼️ (New) Refresh Firebase Data manually
+        @JavascriptInterface
+        fun refreshCarData() {
+            Log.d("MainActivity", "REFRESH_REQUESTED: User tapped refresh button")
+            // [NEW] Mark request time
+            lastRefreshRequestTime = System.currentTimeMillis()
+            
+            launch(Dispatchers.Main) {
+                showJsStatus("차량 데이터 새로고침 요청 중...", "info")
+                val db = com.google.firebase.ktx.Firebase.database("https://mycarserver-fb85e-default-rtdb.firebaseio.com/").reference.child("car_status")
+                
+                // 1. Send Refresh Command
+                db.child("cmd_refresh").setValue(System.currentTimeMillis())
+
+                // 2. Fetch latest data (Fallback/Immediate check)
+                db.get().addOnSuccessListener {
+                    val range = it.child("range").getValue(String::class.java) ?: "--"
+                    val battery = it.child("battery").getValue(String::class.java) ?: "--"
+                    val batteryLevel = it.child("battery_level").getValue(String::class.java) ?: "--"
+                    val mileage = it.child("mileage").getValue(String::class.java) ?: "--"
+
+                    runJs("updateCarStatus('$range', '$battery', '$batteryLevel', '$mileage')")
+                    showJsStatus("새로고침 요청 완료", "success")
+                }.addOnFailureListener {
+                    showJsStatus("통신 실패: ${it.message}", "danger")
+                }
+            }
+        }
+
         @JavascriptInterface
         fun clearDrivingHistory() {
             try {
@@ -1301,6 +1392,21 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+            }
+        }
+    }
+
+    private fun parseTimestamp(timeStr: String): Long {
+        return try {
+            // Try explicit format first (Scraper usually sends this)
+            val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            sdf.parse(timeStr)?.time ?: 0L
+        } catch (e: Exception) {
+            try {
+                 val sdfShort = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+                 sdfShort.parse(timeStr)?.time ?: 0L
+            } catch (e2: Exception) {
+                0L
             }
         }
     }

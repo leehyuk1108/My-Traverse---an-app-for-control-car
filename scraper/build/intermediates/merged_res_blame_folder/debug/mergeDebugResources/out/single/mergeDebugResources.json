@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/ijonghyeog/.gradle/daemon/8.13/com.example.scraper-debug-35:/xml_accessibility_config.xml.flat",
+        "source": "/Users/ijonghyeog/.gradle/daemon/8.13/com.example.scraper-main-37:/xml/accessibility_config.xml"
+    },
+    {
+        "merged": "com.example.scraper-debug-35:/xml_accessibility_config.xml.flat",
+        "source": "com.example.scraper-main-37:/xml/accessibility_config.xml"
+    }
+]

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gcm_defaultSenderId" translatable="false">807154618890</string>
+    <string name="google_api_key" translatable="false">AIzaSyBViFw6_sZetQ-RCLiSye3rA6qbPgyeUIo</string>
+    <string name="google_app_id" translatable="false">1:807154618890:android:fb405a904dfac0aa6fc5f3</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBViFw6_sZetQ-RCLiSye3rA6qbPgyeUIo</string>
+    <string name="google_storage_bucket" translatable="false">mycarserver-fb85e.firebasestorage.app</string>
+    <string name="project_id" translatable="false">mycarserver-fb85e</string>
+</resources>

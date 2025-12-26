@@ -13,3 +13,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Large log files
+full_debug.log
+minimal_scrape.log
+full_log.txt
+*.log
