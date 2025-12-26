@@ -180,8 +180,10 @@
 
         .card-icon {
             font-size: 16px;
-            color: var(--highlight-color);
-            background: rgba(255, 50, 50, 0.1);
+            color: #ddd;
+            /* Monochrome */
+            background: rgba(255, 255, 255, 0.1);
+            /* Monochrome bg */
             width: 28px;
             height: 28px;
             border-radius: 50%;
@@ -247,71 +249,94 @@
             transition: width 1s ease-out;
         }
 
-        /* Tire Section */
-        .tire-section {
-            background: rgba(0, 0, 0, 0.3);
-            /* Darker for contrast */
+        /* === Hero Vehicle Section (v1.4) === */
+        /* ‼️ Added Header Styling */
+        .dashboard-header {
+            padding: 24px 24px 10px 24px;
         }
 
-        .tire-visual-container {
+        .vehicle-hero-container {
             position: relative;
-            height: 140px;
+            width: 100%;
+            height: 320px;
+            /* Large hero height */
             display: flex;
-            align-items: center;
             justify-content: center;
-            margin-top: 5px;
+            align-items: center;
+            margin-bottom: 10px;
+            /* No background card styling - let it float on dashboard */
         }
 
-        .car-outline {
-            font-size: 60px;
-            color: #333;
-            opacity: 0.5;
+        .hero-car-img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.6));
+            /* Stronger shadow */
+            opacity: 0.95;
+            z-index: 1;
         }
 
-        .tire-box {
+        /* Minimalist Floating Tire Widgets */
+        .tire-float {
             position: absolute;
-            background: rgba(40, 40, 40, 0.9);
-            border: 1px solid #444;
-            padding: 4px 8px;
-            border-radius: 8px;
-            text-align: center;
-            min-width: 50px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Glassmorphism Pill */
+            background: rgba(255, 255, 255, 0.08);
+            /* Minimal bg */
+            backdrop-filter: blur(5px);
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s;
         }
 
-        /* Positioning Tires */
-        .tire-fl {
-            top: 10px;
-            left: 10px;
+        .tire-float:active {
+            transform: scale(0.95);
         }
 
-        .tire-fr {
-            top: 10px;
-            right: 10px;
-        }
-
-        .tire-rl {
-            bottom: 10px;
-            left: 10px;
-        }
-
-        .tire-rr {
-            bottom: 10px;
-            right: 10px;
-        }
-
-        .tire-label {
-            display: block;
+        .tf-label {
             font-size: 10px;
-            color: #777;
+            color: #aaa;
+            font-weight: 600;
             margin-bottom: 2px;
+            text-transform: uppercase;
         }
 
-        .tire-value {
-            display: block;
-            font-size: 14px;
+        .tf-value {
+            font-size: 18px;
             font-weight: 700;
             color: #fff;
+            text-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+            /* Slight accent glow */
         }
+
+        /* Positioning relative to Hero Container (320px tall) */
+        /* Tune these based on the car image perspective */
+        .fl {
+            top: 40px;
+            left: 15%;
+        }
+
+        .fr {
+            top: 40px;
+            right: 15%;
+        }
+
+        .rl {
+            bottom: 60px;
+            left: 15%;
+        }
+
+        .rr {
+            bottom: 60px;
+            right: 15%;
+        }
+
 
         /* -------------------------- */
         /* --- 탭 하이라이트 제거 --- */
@@ -562,25 +587,12 @@
         }
 
         /* ‼️ (New) Header Refresh Button */
+        /* ‼️ (New) Header Refresh Button - DEPRECATED (Moved to text click) */
+        /*
         .refresh-button-header {
-            position: absolute;
-            right: 0;
-            top: 5px;
-            /* Adjust alignment with title */
-            background-color: #333;
-            /* Grey */
-            color: #aeaeae;
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.2s;
-            z-index: 10;
+            display: none;
         }
+        */
 
         .refresh-button-header:active {
             transform: rotate(180deg);
@@ -1565,12 +1577,8 @@
                             <span class="dashboard-plate">2023 3.6 REDLINE</span>
 
                             <!-- [NEW] Last Update UI -->
-                            <div id="last-update-display" class="last-update-text"></div>
-
-                            <!-- ‼️ (New) Refresh Button -->
-                            <div class="refresh-button-header" onclick="handleRefreshClick()">
-                                <i class="fas fa-sync-alt"></i>
-                            </div>
+                            <!-- ‼️ (New) Clickable Update Time acts as Refresh -->
+                            <div id="last-update-display" class="last-update-text" onclick="handleRefreshClick()"></div>
                         </div>
 
                         <div class="car-image-container">
@@ -1684,47 +1692,38 @@
                 </div>
             </div>
 
-            <!-- ‼️ [NEW] Info Tab (Design v1.3: Redline Premium) -->
+            <!-- ‼️ [NEW] Info Tab (Design v1.4: Hero Layout) -->
             <div id="tab-info" class="tab-panel">
                 <div class="dashboard-header">
                     <span class="dashboard-title">VEHICLE HEALTH</span>
-                    <span class="dashboard-plate">DETAILED DIAGNOSTICS</span>
+                    <span class="dashboard-plate">REAL-TIME DIAGNOSTICS</span>
                 </div>
 
-                <div class="info-grid">
+                <!-- 1. Hero Section: Large Top-Down Car View -->
+                <div class="vehicle-hero-container">
+                    <img src="my_car_up.png" class="hero-car-img" alt="Vehicle Top View">
 
-                    <!-- Tier 1: Tire Pressure (Car Visualization) -->
-                    <div class="info-card full-width tire-section">
-                        <div class="card-header-row">
-                            <div class="card-icon"><i class="fas fa-bullseye"></i></div>
-                            <div class="card-title">Tire Pressure</div>
-                        </div>
-
-                        <div class="tire-visual-container">
-                            <!-- Center Car Outline -->
-                            <div class="car-outline">
-                                <i class="fas fa-car-side"></i> <!-- Simple icon for center -->
-                            </div>
-
-                            <!-- 4 Tires (Absolute Positioning Relative to Container) -->
-                            <div class="tire-box tire-fl">
-                                <span class="tire-label">FL</span>
-                                <span id="tire-fl-val" class="tire-value">--</span>
-                            </div>
-                            <div class="tire-box tire-fr">
-                                <span class="tire-label">FR</span>
-                                <span id="tire-fr-val" class="tire-value">--</span>
-                            </div>
-                            <div class="tire-box tire-rl">
-                                <span class="tire-label">RL</span>
-                                <span id="tire-rl-val" class="tire-value">--</span>
-                            </div>
-                            <div class="tire-box tire-rr">
-                                <span class="tire-label">RR</span>
-                                <span id="tire-rr-val" class="tire-value">--</span>
-                            </div>
-                        </div>
+                    <!-- Floating Tire Widgets (Minimalist) -->
+                    <div class="tire-float fl">
+                        <span class="tf-label">FL</span>
+                        <span id="tire-fl-val" class="tf-value">--</span>
                     </div>
+                    <div class="tire-float fr">
+                        <span class="tf-label">FR</span>
+                        <span id="tire-fr-val" class="tf-value">--</span>
+                    </div>
+                    <div class="tire-float rl">
+                        <span class="tf-label">RL</span>
+                        <span id="tire-rl-val" class="tf-value">--</span>
+                    </div>
+                    <div class="tire-float rr">
+                        <span class="tf-label">RR</span>
+                        <span id="tire-rr-val" class="tf-value">--</span>
+                    </div>
+                </div>
+
+                <!-- 2. Status Grid (Remaining Items) -->
+                <div class="info-grid">
 
                     <!-- Tier 2: Fuel & Range -->
                     <div class="info-card">
@@ -2094,10 +2093,7 @@
             <i class="fas fa-ellipsis-h"></i>
             <span>부가 기능</span>
         </div>
-        <div class="nav-item" data-target="tab-settings">
-            <i class="fas fa-cog"></i>
-            <span>설정</span>
-        </div>
+
     </div>
 
     </div> <!-- app-frame end -->
@@ -2560,24 +2556,52 @@
             // 5. [NEW] Update Info Tab Elements (v1.3 Redline Design)
 
             // --- Oil ---
+            // --- Oil ---
             if (document.getElementById('info-oil')) {
                 const oilVal = (oil && oil !== '--') ? oil : '--';
                 document.getElementById('info-oil').textContent = (oilVal !== '--') ? oilVal + "%" : "--%";
-                // Progress Bar
+
+                // ‼️ Dynamic Status & Color
+                const statusEl = document.getElementById('info-oil-status');
                 const progOil = document.getElementById('prog-oil');
-                if (progOil) {
+
+                if (oilVal !== '--') {
                     const oilNum = parseInt(oilVal);
                     if (!isNaN(oilNum)) {
-                        progOil.style.width = oilNum + "%";
-                        // Color: < 20% ? Red, else Gradient
-                        if (oilNum < 20) progOil.style.background = '#ff0000';
-                    } else {
-                        progOil.style.width = "0%";
+                        // Progress Bar
+                        if (progOil) progOil.style.width = oilNum + "%";
+
+                        // Status Logic
+                        let statusText = "Good";
+                        let statusColor = "var(--accent-color)"; // Default Cyan
+                        let barColor = "linear-gradient(90deg, var(--accent-color), #2cb5e8)";
+
+                        if (oilNum <= 10) {
+                            statusText = "Warning";
+                            statusColor = "#ff4444"; // Red
+                            barColor = "#ff4444";
+                        } else if (oilNum <= 30) {
+                            statusText = "Replace Soon";
+                            statusColor = "#ffbb33"; // Orange
+                            barColor = "#ffbb33";
+                        }
+
+                        if (statusEl) {
+                            statusEl.textContent = statusText;
+                            statusEl.style.color = statusColor;
+                        }
+                        if (progOil) {
+                            progOil.style.background = barColor;
+                        }
+
                     }
+                } else {
+                    if (progOil) progOil.style.width = "0%";
+                    if (statusEl) statusEl.textContent = "--";
                 }
             }
 
-            // --- Tire Pressure (4-Way Logic) ---
+            // --- Tire Pressure logic continues inside function ---
             if (document.getElementById('tire-fl-val')) {
                 let tires = [];
 
@@ -2590,22 +2614,44 @@
 
                 // Fallback: Use single 'tirePressure' if list empty
                 if (tires.length === 0 && tirePressure && tirePressure !== '--') {
-                    const val = tirePressure.replace(/[^0-9]/g, '');
-                    // If val is suspiciously long (e.g. > 3 digits), do NOT replicate it to all tires.
-                    if (val.length > 3) {
-                        // This looks like the "244236244240" bug. 
-                        // Attempt to split it by 3s? (Traverse PSI is ~35 -> 2 digits, KPA ~240 -> 3 digits)
-                        // Safe assumption: If length % 3 == 0, split by 3.
-                        if (val.length === 12) { // 4 tires * 3 digits
-                            tires = [val.substring(0, 3), val.substring(3, 6), val.substring(6, 9), val.substring(9, 12)];
-                        } else if (val.length === 8) { // 4 tires * 2 digits (PSI)
-                            tires = [val.substring(0, 2), val.substring(2, 4), val.substring(4, 6), val.substring(6, 8)];
-                        } else {
-                            tires = ['Err', 'Err', 'Err', 'Err'];
-                        }
+                    // Check if it's a simple single value with unit (e.g. "244 kpa")
+                    // If so, replicate it AS IS (preserving unit)
+                    if (tirePressure.length < 10 && tirePressure.match(/\d/)) {
+                        // Simple case: "244kpa"
+                        tires = [tirePressure, tirePressure, tirePressure, tirePressure];
                     } else {
-                        // Normal single value (e.g. "240") -> Replicate
-                        tires = [val, val, val, val];
+                        // Complex/Messy case: "244244244244" or "244236..."
+                        // Here we unfortunately might lose the unit if it's just a string of digits.
+                        // But let's verify if we can recover.
+                        const val = tirePressure.replace(/[^0-9]/g, '');
+
+                        // Guess unit based on value magnitude?
+                        // > 100 -> kpa, < 100 -> psi
+                        let guessedUnit = "";
+                        if (val.length > 0) {
+                            const sample = parseInt(val.substring(0, 3));
+                            if (sample > 100) guessedUnit = "kpa";
+                            else guessedUnit = "psi";
+                        }
+
+                        if (val.length === 12) { // 4 tires * 3 digits (KPA)
+                            tires = [
+                                val.substring(0, 3) + guessedUnit,
+                                val.substring(3, 6) + guessedUnit,
+                                val.substring(6, 9) + guessedUnit,
+                                val.substring(9, 12) + guessedUnit
+                            ];
+                        } else if (val.length === 8) { // 4 tires * 2 digits (PSI)
+                            tires = [
+                                val.substring(0, 2) + guessedUnit,
+                                val.substring(2, 4) + guessedUnit,
+                                val.substring(4, 6) + guessedUnit,
+                                val.substring(6, 8) + guessedUnit
+                            ];
+                        } else {
+                            // Can't parse mess, just try original?
+                            tires = [tirePressure, tirePressure, tirePressure, tirePressure];
+                        }
                     }
                 }
 
@@ -2616,9 +2662,23 @@
                     const el = document.getElementById(`tire-${slots[i]}-val`);
                     if (el) {
                         if (tires[i]) {
-                            // Clean: Remove non-digits for cleaner look
-                            let cleanVal = tires[i].replace(/[^0-9]/g, '');
-                            el.textContent = cleanVal;
+                            // Raw text (e.g. "240kpa" or "240 kpa" or "35psi")
+                            let raw = tires[i].trim();
+
+                            // Extract numeric part and unit
+                            // Matches: numbers followed optionally by text
+                            let match = raw.match(/^(\d+)\s*([a-zA-Z]+)?$/);
+
+                            if (match) {
+                                let val = match[1];
+                                let unit = match[2] || ''; // 'kpa', 'psi', etc.
+
+                                // Format: Value + Small Unit
+                                el.innerHTML = `${val}<span style="font-size:10px; margin-left:1px; color:#aaa; font-weight:normal;">${unit}</span>`;
+                            } else {
+                                // Fallback if irregular format
+                                el.textContent = raw;
+                            }
                             el.style.color = '#fff';
                         } else {
                             el.textContent = '--';
@@ -2633,22 +2693,49 @@
                 document.getElementById('info-volts').textContent = (battery && battery !== '--') ? battery + "V" : "--V";
             }
             if (document.getElementById('info-bat-level')) {
-                document.getElementById('info-bat-level').textContent = (batteryLevel && batteryLevel !== '--') ? batteryLevel + "%" : "--%";
+                const batEl = document.getElementById('info-bat-level');
+                const batVal = (batteryLevel && batteryLevel !== '--') ? batteryLevel : "--";
+                batEl.textContent = batVal + "%";
+
+                // ‼️ Dynamic Battery Color
+                if (batVal !== '--') {
+                    const batNum = parseInt(batVal);
+                    if (!isNaN(batNum)) {
+                        if (batNum < 50) batEl.style.color = "#ff4444"; // Red
+                        else if (batNum < 70) batEl.style.color = "#ffbb33"; // Orange
+                        else batEl.style.color = "var(--accent-color)"; // Blue/Cyan
+                    }
+                }
             }
 
             // --- Fuel ---
             if (document.getElementById('info-fuel')) {
                 const fuelVal = fuel || "--";
-                document.getElementById('info-fuel').textContent = (fuelVal !== '--') ? fuelVal + "L" : "--L";
+                if (fuelVal !== '--') {
+                    // ‼️ Format: "45L" -> "45L / 82L" (with styled 82L)
+                    const cleanFuel = fuelVal.replace(/[^\d]/g, '');
+                    document.getElementById('info-fuel').innerHTML = `${cleanFuel}L<span style="font-size:12px; color:#aaa; margin-left:2px;"> / 82L</span>`;
+                } else {
+                    document.getElementById('info-fuel').textContent = "-- / 82L";
+                }
 
-                // Progress Bar (Estimate: Max 60L?)
+                // Progress Bar (Estimate: Max 82L)
                 const progFuel = document.getElementById('prog-fuel');
                 if (progFuel) {
                     const fuelNum = parseInt(fuelVal.replace('L', ''));
                     if (!isNaN(fuelNum)) {
-                        // Assume max 60L for Traverse? Approx.
-                        const percent = Math.min((fuelNum / 82) * 100, 100); // Traverse ~82L tank
+                        const percent = Math.min((fuelNum / 82) * 100, 100);
                         progFuel.style.width = percent + "%";
+
+                        // ‼️ Dynamic Fuel Color
+                        if (percent < 15) { // Low Fuel (< 15%)
+                            progFuel.style.background = "#ff4444";
+                        } else if (percent < 40) { // Medium (< 40%)
+                            progFuel.style.background = "#ffbb33";
+                        } else {
+                            // Healthy Gradient
+                            progFuel.style.background = "linear-gradient(90deg, var(--accent-color), #2cb5e8)";
+                        }
                     } else {
                         progFuel.style.width = "0%";
                     }

@@ -1406,8 +1406,19 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
                     val battery = it.child("battery").getValue(String::class.java) ?: "--"
                     val batteryLevel = it.child("battery_level").getValue(String::class.java) ?: "--"
                     val mileage = it.child("mileage").getValue(String::class.java) ?: "--"
+                    val fuel = it.child("fuel").getValue(String::class.java) ?: "--"
+                    val lastUpdate = it.child("last_update").getValue(String::class.java) ?: "--"
+                    val oil = it.child("oil").getValue(String::class.java) ?: "--"
+                    val tirePressure = it.child("tire_pressure").getValue(String::class.java) ?: "--"
+                    val tirePressureAll = it.child("tire_pressure_all").getValue(String::class.java) ?: "--"
 
-                    runJs("updateCarStatus('$range', '$battery', '$batteryLevel', '$mileage')")
+                    runJs("updateCarStatus('$range', '$battery', '$batteryLevel', '$mileage', '$fuel', '$lastUpdate', '$oil', '$tirePressure', '$tirePressureAll')")
+                    
+                    // Update cache for consistency
+                    lastFuel = fuel
+                    lastTime = lastUpdate
+                    lastOil = oil
+                    lastTireList = tirePressureAll
                     showJsStatus("새로고침 요청 완료", "success")
                 }.addOnFailureListener {
                     showJsStatus("통신 실패: ${it.message}", "danger")
