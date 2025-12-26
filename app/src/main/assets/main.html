@@ -488,11 +488,10 @@
 
         /* [NEW] Last Update Text - Premium Pill Style */
         .last-update-text {
-            /* Hidden by default */
-            display: none;
+            /* Modified: Always visible, left aligned, smaller */
+            display: inline-flex;
             align-items: center;
             /* Center icon and text */
-            justify-content: center;
             gap: 6px;
             /* Icon spacing */
 
@@ -502,10 +501,12 @@
             border-radius: 20px;
             /* Pill shape */
 
-            padding: 6px 14px;
-            margin-top: 8px;
+            padding: 4px 10px;
+            /* Reduced padding */
+            margin-top: 6px;
             /* Spacing from plate */
-            margin-bottom: 25px;
+            margin-bottom: 5px;
+            /* Reduced bottom margin heavily */
 
             font-size: 11px;
             color: #aaa;
@@ -2254,40 +2255,16 @@
             }
         }
 
-        // ‼️ (New) Two-Step Refresh Logic
-        let refreshStep = 0;
-        let refreshTimer = null;
-
+        // ‼️ (수정) Single-Step Refresh Logic
         function handleRefreshClick() {
-            const updateEl = document.getElementById('last-update-display');
+            // Simply trigger refresh immediately
+            console.log('Requesting refresh...');
+            if (window.Android) window.Android.refreshCarData();
 
-            if (refreshStep === 0) {
-                // Step 1: Show Time
-                updateEl.style.display = 'inline-flex';
-                // Add fade-in animation or class if desired
-
-                refreshStep = 1;
-
-                // Auto-hide after 3 seconds if not pressed again
-                if (refreshTimer) clearTimeout(refreshTimer);
-                refreshTimer = setTimeout(() => {
-                    updateEl.style.display = 'none';
-                    refreshStep = 0;
-                }, 3000); // 3 seconds timeout
-
-            } else {
-                // Step 2: Trigger Refresh
-                if (refreshTimer) clearTimeout(refreshTimer);
-                console.log('Requesting refresh...');
-                if (window.Android) window.Android.refreshCarData();
-
-                // Keep showing logic? Or hide? 
-                // Let's hide it to indicate "Request Sent" or maybe show "requesting..."?
-                // User said "Once -> Time, Twice -> Refresh". 
-                // Let's reset the state.
-                updateEl.style.display = 'none';
-                refreshStep = 0;
-            }
+            // Optional: Provide visual feedback?
+            // The button itself doesn't have a 'sending' state here, 
+            // but the Android side might show a toast or the status text will update.
+            showStatus('차량 정보 갱신을 요청했습니다.', 'info');
         }
 
         // ‼️ (신규) 주차 위치 지도 업데이트 함수 (주소 표시로 변경)
